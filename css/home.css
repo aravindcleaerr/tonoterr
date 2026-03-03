@@ -34,6 +34,15 @@
   max-width: 800px;
 }
 
+/* CleaErr logo mark in hero */
+.hero__logo-mark {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1.5rem;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(231, 76, 60, 0.35));
+}
+
 .hero__tagline {
   font-family: var(--font-mono);
   font-size: 0.85rem;

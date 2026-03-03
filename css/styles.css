@@ -199,8 +199,14 @@ ul, ol {
   color: var(--brand-primary);
 }
 
-.nav__logo .zero {
-  color: var(--brand-accent);
+/* Inline logo mark replacing the "0" in toN0tErr */
+.logo-zero {
+  height: 0.82em;
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  top: -0.06em;
 }
 
 .nav__links {
@@ -573,9 +579,7 @@ ul, ol {
   margin-bottom: 0.75rem;
 }
 
-.footer__brand .zero {
-  color: var(--brand-accent);
-}
+/* footer__brand uses .logo-zero (see above) */
 
 .footer__desc {
   font-size: 0.9rem;
@@ -644,6 +648,23 @@ ul, ol {
   background: var(--hero-gradient);
   padding: 8rem 0 4rem;
   color: #fff;
+}
+
+/* CleaErr logo mark in page-hero (founder page) */
+.page-hero__logo-mark {
+  width: 56px;
+  height: 56px;
+  display: block;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 3px 8px rgba(231, 76, 60, 0.3));
+}
+
+/* CleaErr logo mark in section headers (about page) */
+.section-logo-mark {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
 }
 
 .page-hero__title {
