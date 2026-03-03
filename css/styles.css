@@ -185,15 +185,16 @@ ul, ol {
 }
 
 .nav__logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
+  display: inline-block;
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 1.35rem;
   color: var(--brand-primary);
   text-decoration: none;
   line-height: 1;
+  white-space: nowrap;
+  word-spacing: 0;
+  letter-spacing: 0;
 }
 
 .nav__logo:hover {
@@ -208,6 +209,9 @@ ul, ol {
   vertical-align: middle;
   position: relative;
   top: -0.05em;
+  margin: 0;
+  padding: 0;
+  border: none;
   filter: drop-shadow(0 2px 8px rgba(231, 76, 60, 0.5));
 }
 
@@ -579,6 +583,9 @@ ul, ol {
   font-weight: 800;
   color: #fff;
   margin-bottom: 0.75rem;
+  white-space: nowrap;
+  word-spacing: 0;
+  letter-spacing: 0;
 }
 
 /* footer__brand uses .logo-zero (see above) */
