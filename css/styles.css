@@ -203,7 +203,7 @@ ul, ol {
 
 /* Inline logo mark replacing the "0" in toN0tErr */
 .logo-zero {
-  height: 1.7em;
+  height: 1.4em;
   width: auto;
   display: inline-block;
   vertical-align: middle;
@@ -661,8 +661,8 @@ ul, ol {
 
 /* CleaErr logo mark in page-hero (founder page) */
 .page-hero__logo-mark {
-  width: 120px;
-  height: 120px;
+  height: 100px;
+  width: auto;
   display: block;
   margin-bottom: 1.5rem;
   filter: drop-shadow(0 6px 18px rgba(231, 76, 60, 0.55));
@@ -670,8 +670,8 @@ ul, ol {
 
 /* CleaErr logo mark in section headers (about page) */
 .section-logo-mark {
-  width: 100px;
-  height: 100px;
+  height: 84px;
+  width: auto;
   flex-shrink: 0;
   margin-top: 0.1rem;
   filter: drop-shadow(0 4px 14px rgba(231, 76, 60, 0.3));

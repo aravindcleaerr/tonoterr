@@ -36,8 +36,8 @@
 
 /* CleaErr logo mark in hero */
 .hero__logo-mark {
-  width: 150px;
-  height: 150px;
+  height: 124px;
+  width: auto;
   margin: 0 auto 2rem;
   display: block;
   filter: drop-shadow(0 8px 28px rgba(231, 76, 60, 0.6));
