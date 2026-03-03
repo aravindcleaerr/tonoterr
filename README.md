@@ -25,7 +25,7 @@ toN0tErr builds products, devices, processes, and applications that systematical
 - **Home** — Hero, two pillars (Consulting + Tools), highlights, industries
 - **About** — Company story, philosophy, stats
 - **Consulting** — 5 CleaErr embedded systems engagements
-- **Tools** — 5 software tools with live demo links
+- **Tools** — Software tools: ProdSync, VoltSpark, PartOK, PCBok, ZeroTest
 - **Founder** — Aravind V Bayari profile
 - **Contact** — Contact information and engagement types
 
