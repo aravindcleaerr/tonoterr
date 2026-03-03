@@ -36,11 +36,11 @@
 
 /* CleaErr logo mark in hero */
 .hero__logo-mark {
-  width: 112px;
-  height: 112px;
-  margin: 0 auto 1.75rem;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 2rem;
   display: block;
-  filter: drop-shadow(0 6px 20px rgba(231, 76, 60, 0.5));
+  filter: drop-shadow(0 8px 28px rgba(231, 76, 60, 0.6));
 }
 
 .hero__tagline {
