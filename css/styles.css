@@ -253,14 +253,9 @@ ul, ol {
   left: 0;
 }
 
-/* Mobile Nav Toggle — use visually-hidden instead of display:none
-   so mobile browsers correctly associate label clicks with the checkbox */
+/* Mobile Nav Toggle — hidden, JS handles toggling via classes */
 .nav__toggle {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  pointer-events: none;
+  display: none;
 }
 
 .nav__hamburger {
@@ -270,6 +265,10 @@ ul, ol {
   cursor: pointer;
   padding: 8px;
   z-index: 1001;
+  background: none;
+  border: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .nav__hamburger span {
@@ -303,19 +302,19 @@ ul, ol {
     z-index: 1001;
   }
 
-  .nav__toggle:checked ~ .nav__links {
+  .nav__links--open {
     right: 0;
   }
 
-  .nav__toggle:checked ~ .nav__hamburger span:nth-child(1) {
+  .nav__hamburger--open span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
 
-  .nav__toggle:checked ~ .nav__hamburger span:nth-child(2) {
+  .nav__hamburger--open span:nth-child(2) {
     opacity: 0;
   }
 
-  .nav__toggle:checked ~ .nav__hamburger span:nth-child(3) {
+  .nav__hamburger--open span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
   }
 

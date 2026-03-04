@@ -13,31 +13,39 @@
     }, { passive: true });
   }
 
-  // --- Mobile Menu ---
-  const toggle = document.getElementById('nav-toggle');
-  const navLinks = document.querySelectorAll('.nav__link');
+  // --- Mobile Menu (JS toggle instead of checkbox hack) ---
+  const hamburger = document.querySelector('.nav__hamburger');
+  const navLinksContainer = document.querySelector('.nav__links');
 
-  // Close mobile menu on link click
-  navLinks.forEach(function (link) {
-    link.addEventListener('click', function () {
-      if (toggle) toggle.checked = false;
+  if (hamburger && navLinksContainer) {
+    hamburger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = navLinksContainer.classList.toggle('nav__links--open');
+      hamburger.classList.toggle('nav__hamburger--open', isOpen);
     });
-  });
 
-  // Close mobile menu on outside click
-  document.addEventListener('click', function (e) {
-    if (toggle && toggle.checked) {
-      const isMenu = e.target.closest('.nav__links');
-      const isHamburger = e.target.closest('.nav__hamburger');
-      if (!isMenu && !isHamburger) {
-        toggle.checked = false;
+    // Close on nav link click
+    navLinksContainer.querySelectorAll('.nav__link').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navLinksContainer.classList.remove('nav__links--open');
+        hamburger.classList.remove('nav__hamburger--open');
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', function (e) {
+      if (navLinksContainer.classList.contains('nav__links--open')) {
+        if (!e.target.closest('.nav__links') && !e.target.closest('.nav__hamburger')) {
+          navLinksContainer.classList.remove('nav__links--open');
+          hamburger.classList.remove('nav__hamburger--open');
+        }
       }
-    }
-  });
+    });
+  }
 
   // --- Active Page Highlighting ---
   var currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  navLinks.forEach(function (link) {
+  document.querySelectorAll('.nav__link').forEach(function (link) {
     var href = link.getAttribute('href');
     if (href === currentPage || (currentPage === '' && href === 'index.html')) {
       link.classList.add('active');
