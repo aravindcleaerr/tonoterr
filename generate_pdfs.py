@@ -99,7 +99,7 @@ def draw_section_heading(c, y, title):
     c.setLineWidth(2)
     sw = c.stringWidth(title, "Helvetica-Bold", 12)
     c.line(LEFT, y, LEFT + sw + 5, y)
-    return y - 16
+    return y - 22
 
 
 def draw_divider(c, y):
