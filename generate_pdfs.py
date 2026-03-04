@@ -189,6 +189,7 @@ def generate_tool_pdf(tool):
 
     # ── Technology Stack ──
     y = draw_section_heading(c, y, "Technology Stack")
+    y -= 8  # extra gap so tall pill tops don't crowd the underline
 
     x = LEFT
     for tag in tool["tags"]:
