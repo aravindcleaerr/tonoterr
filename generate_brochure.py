@@ -311,6 +311,106 @@ def draw_industries(c, y):
     return y - 24
 
 
+def draw_approach(c, y):
+    """Our Approach — Identify → Engineer → Eliminate."""
+    c.setStrokeColor(DIVIDER)
+    c.setLineWidth(0.5)
+    c.line(LEFT, y, RIGHT, y)
+    y -= 16
+
+    c.setFillColor(PRIMARY)
+    c.setFont("Helvetica-Bold", 11)
+    c.drawString(LEFT, y, "Our Approach")
+    y -= 5
+    c.setStrokeColor(ACCENT)
+    c.setLineWidth(2)
+    c.line(LEFT, y, LEFT + 95, y)
+    y -= 22
+
+    # Three steps side by side
+    steps = [
+        ("1. Identify", "Pinpoint the root cause of errors \u2014 human, machine, or system-originated."),
+        ("2. Engineer", "Build tools, devices, processes, and applications that address root causes."),
+        ("3. Eliminate", "Drive error rates toward zero through deployment, monitoring, and refinement."),
+    ]
+    step_w = (CW - 30) / 3
+
+    for i, (title, desc) in enumerate(steps):
+        sx = LEFT + i * (step_w + 15)
+
+        # Step number circle
+        c.setFillColor(ACCENT if i == 0 else PRIMARY if i == 1 else SUCCESS)
+        c.circle(sx + 10, y + 3, 8, fill=1, stroke=0)
+        c.setFillColor(white)
+        c.setFont("Helvetica-Bold", 10)
+        c.drawCentredString(sx + 10, y - 1, str(i + 1))
+
+        # Title
+        c.setFillColor(DARK_TEXT)
+        c.setFont("Helvetica-Bold", 10)
+        # Extract just the name part (after "N. ")
+        step_name = title.split(". ", 1)[1]
+        c.drawString(sx + 24, y, step_name)
+
+        # Description
+        c.setFillColor(BODY_TEXT)
+        c.setFont("Helvetica", 8)
+        for j, line in enumerate(word_wrap(c, desc, "Helvetica", 8, step_w - 24)):
+            c.drawString(sx + 24, y - 14 - j * 11, line)
+
+    # Arrow connectors between steps
+    c.setFillColor(BODY_TEXT)
+    c.setFont("Helvetica-Bold", 14)
+    for i in range(2):
+        ax = LEFT + (i + 1) * (step_w + 15) - 10
+        c.drawCentredString(ax, y - 2, "\u2192")
+
+    y -= 50
+    return y
+
+
+def draw_founder_bar(c, y):
+    """Founder credential bar."""
+    c.setStrokeColor(DIVIDER)
+    c.setLineWidth(0.5)
+    c.line(LEFT, y, RIGHT, y)
+    y -= 16
+
+    c.setFillColor(PRIMARY)
+    c.setFont("Helvetica-Bold", 11)
+    c.drawString(LEFT, y, "Founded By")
+    y -= 5
+    c.setStrokeColor(ACCENT)
+    c.setLineWidth(2)
+    c.line(LEFT, y, LEFT + 85, y)
+    y -= 18
+
+    # Name and title
+    c.setFillColor(DARK_TEXT)
+    c.setFont("Helvetica-Bold", 11)
+    c.drawString(LEFT, y, "Aravind V Bayari")
+    nw = c.stringWidth("Aravind V Bayari", "Helvetica-Bold", 11)
+    c.setFillColor(ACCENT)
+    c.setFont("Helvetica", 9)
+    c.drawString(LEFT + nw + 10, y + 1, "Founder & CTO")
+    y -= 16
+
+    # Credentials
+    creds = (
+        "25+ years of embedded systems expertise. Led R&D of the SCAD 508 "
+        "(Technology Development Board Award from the President of India). "
+        "Products span defence avionics, EV motor drives, radar-based AI health "
+        "monitoring, and viral food robots."
+    )
+    c.setFillColor(BODY_TEXT)
+    c.setFont("Helvetica", 9)
+    for line in word_wrap(c, creds, "Helvetica", 9, CW):
+        c.drawString(LEFT, y, line)
+        y -= 13
+
+    return y - 6
+
+
 def draw_contact(c, y):
     """Contact information section."""
     c.setStrokeColor(DIVIDER)
@@ -389,6 +489,8 @@ def generate_brochure():
     y = draw_pillars(c, y)
     y = draw_stats_bar(c, y)
     y = draw_industries(c, y)
+    y = draw_approach(c, y)
+    y = draw_founder_bar(c, y)
     y = draw_contact(c, y)
     draw_footer(c)
 
