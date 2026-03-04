@@ -253,9 +253,14 @@ ul, ol {
   left: 0;
 }
 
-/* Mobile Nav Toggle */
+/* Mobile Nav Toggle — use visually-hidden instead of display:none
+   so mobile browsers correctly associate label clicks with the checkbox */
 .nav__toggle {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
 .nav__hamburger {
