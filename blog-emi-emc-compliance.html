@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMI/EMC Compliance for Indian Startups: A Practical Guide | toN0tErr</title>
+  <meta name="description" content="A practical guide to EMI/EMC compliance for Indian startups — covering common failure patterns, design-for-compliance PCB practices, and the testing process from pre-compliance to CE/FCC certification.">
+  <meta name="author" content="Aravind V Bayari, Lakshminarasimhan K">
+  <link rel="canonical" href="https://tonoterr.vercel.app/blog-emi-emc-compliance.html">
+
+  <meta property="og:title" content="EMI/EMC Compliance for Indian Startups | toN0tErr">
+  <meta property="og:description" content="A practical guide to EMI/EMC compliance — covering common failure patterns, design-for-compliance PCB practices, and the testing process from pre-compliance to certification.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://tonoterr.vercel.app/blog-emi-emc-compliance.html">
+  <meta property="og:site_name" content="toN0tErr">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/blog.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">toN<img src="assets/cleaerr-logo.png" class="logo-zero" alt="">tErr</a>
+
+      <button type="button" class="nav__hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav__links">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="about.html" class="nav__link">About</a>
+        <a href="consulting.html" class="nav__link">Consulting</a>
+        <a href="tools.html" class="nav__link">Tools</a>
+        <a href="blog.html" class="nav__link">Blog</a>
+        <a href="founder.html" class="nav__link">Founder</a>
+        <a href="contact.html" class="nav__link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <div class="container">
+        <span class="section-label" style="color: rgba(255,255,255,0.6);">Blog</span>
+        <h1 class="page-hero__title">EMI/EMC Compliance for Indian Startups: Getting CE/FCC Right the First Time</h1>
+      </div>
+    </section>
+
+    <!-- Blog Post -->
+    <section class="section">
+      <div class="container">
+        <div class="blog-post">
+
+          <a href="blog.html" class="blog-post__back">&larr; All posts</a>
+
+          <div class="blog-post__tags">
+            <span class="tag tag--primary">EMI/EMC</span>
+            <span class="tag tag--primary">Hardware Design</span>
+            <span class="tag tag--primary">Compliance</span>
+            <span class="tag tag--primary">CE Marking</span>
+            <span class="tag tag--primary">PCB Design</span>
+          </div>
+
+          <div class="blog-post__meta">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              26 March 2026
+            </span>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              12 min read
+            </span>
+          </div>
+
+          <div class="blog-post__authors">
+            <a href="founder.html" class="blog-post__author">
+              <div class="blog-post__author-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <div>
+                <div class="blog-post__author-name">Aravind V Bayari</div>
+                <div class="blog-post__author-role">Embedded Systems Architect</div>
+              </div>
+            </a>
+            <a href="https://akshayacreatech.vercel.app/founder" target="_blank" rel="noopener" class="blog-post__author">
+              <div class="blog-post__author-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <div>
+                <div class="blog-post__author-name">Lakshminarasimhan K</div>
+                <div class="blog-post__author-role">Founder, Akshaya Createch</div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Article Body -->
+          <article class="prose">
+
+            <h2>The Costly Surprise No One Warns You About</h2>
+            <p>Picture this: eighteen months of development, three prototype revisions, a polished enclosure, and a working product ready for the European market. You ship your units to the EMC test lab &mdash; confident, even excited. Then the call comes: <strong>your product has failed radiated emissions by 12 dB</strong>. The launch is dead. The redesign will take months.</p>
+            <p>This is not a hypothetical. It happens to Indian hardware startups with depressing regularity. The root cause is almost always the same: EMI/EMC was treated as a checkbox at the end, rather than an <strong>engineering discipline woven into the design from day one</strong>.</p>
+            <p>This guide is our attempt to change that. Whether you are building a consumer IoT device, an industrial controller, or a medical instrument, this article will walk you through what EMI/EMC compliance actually involves, why products fail, how to design for compliance, and what the testing and certification process looks like in practice.</p>
+
+            <hr>
+
+            <h2>What EMI/EMC Actually Means</h2>
+            <p><strong>EMI (Electromagnetic Interference)</strong> is the unwanted electromagnetic energy that your product radiates or conducts into its environment. Every digital circuit, every switching power supply, every clock signal is a potential source of EMI.</p>
+            <p><strong>EMC (Electromagnetic Compatibility)</strong> is the broader discipline: ensuring that your product neither emits excessive interference nor is unduly susceptible to interference from other devices. A product that is "EMC compliant" can coexist peacefully in its intended electromagnetic environment.</p>
+            <p>Compliance testing falls into two broad categories:</p>
+
+            <h3>Emissions Testing</h3>
+            <p>Emissions testing measures the electromagnetic noise your product generates. It has two components:</p>
+            <ul>
+              <li><strong>Conducted Emissions (150 kHz &ndash; 30 MHz):</strong> Noise that your product injects back into the power supply lines. Measured using a LISN (Line Impedance Stabilisation Network) and a spectrum analyser.</li>
+              <li><strong>Radiated Emissions (30 MHz &ndash; 1 GHz+):</strong> Electromagnetic energy radiated into free space from your PCB traces, cables, and enclosure. Measured at 3 m or 10 m distance in a semi-anechoic chamber or open-area test site (OATS).</li>
+            </ul>
+
+            <h3>Immunity Testing</h3>
+            <p>Immunity (or susceptibility) testing verifies that your product continues to function correctly when exposed to external electromagnetic disturbances. The key immunity tests are:</p>
+            <ul>
+              <li><strong>ESD (IEC 61000-4-2):</strong> Electrostatic discharge &mdash; simulates a human touching the product. Contact discharge up to 4 kV, air discharge up to 8 kV.</li>
+              <li><strong>EFT/Burst (IEC 61000-4-4):</strong> Electrical fast transients &mdash; simulates switching transients on power and signal lines. Bursts of fast, repetitive pulses.</li>
+              <li><strong>Surge (IEC 61000-4-5):</strong> High-energy surges on power and telecom lines &mdash; simulates lightning-induced surges and heavy load switching.</li>
+              <li><strong>Radiated Immunity (IEC 61000-4-3):</strong> Exposes the product to RF fields (typically 80 MHz &ndash; 1 GHz at 3 V/m or 10 V/m) to verify it does not malfunction.</li>
+              <li><strong>Conducted Immunity (IEC 61000-4-6):</strong> Injects RF disturbances (150 kHz &ndash; 80 MHz) directly onto cables and interconnects.</li>
+            </ul>
+
+            <hr>
+
+            <h2>The Standards Landscape</h2>
+            <p>Which standards apply depends on your target market, product category, and end-use environment. Here is a practical overview:</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Market</th>
+                  <th>Key Standard</th>
+                  <th>Governing Body</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>European Union (CE)</td>
+                  <td>EN 55032/55035, EN 61000-6-x series</td>
+                  <td>CENELEC / EU Commission</td>
+                </tr>
+                <tr>
+                  <td>United States (FCC)</td>
+                  <td>FCC Part 15 Subpart B (Class A/B)</td>
+                  <td>Federal Communications Commission</td>
+                </tr>
+                <tr>
+                  <td>India (BIS)</td>
+                  <td>IS 13252 (IT equipment), CISPR 32</td>
+                  <td>Bureau of Indian Standards</td>
+                </tr>
+                <tr>
+                  <td>Medical Devices</td>
+                  <td>IEC 60601-1-2 (4th Edition)</td>
+                  <td>IEC / National regulators</td>
+                </tr>
+                <tr>
+                  <td>Automotive</td>
+                  <td>CISPR 25, ISO 11452 series</td>
+                  <td>ISO / UNECE</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p><strong>CE marking</strong> is not a single test &mdash; it is a declaration of conformity that your product meets all applicable EU directives, including the EMC Directive (2014/30/EU), the Low Voltage Directive, and potentially the Radio Equipment Directive (RED). You must maintain a Technical Construction File (TCF) documenting your compliance.</p>
+            <p><strong>FCC Part 15</strong> classifies devices as Class A (commercial/industrial) or Class B (residential). Class B limits are approximately 10 dB stricter than Class A. If your product will be used in homes, you must meet Class B &mdash; no exceptions.</p>
+
+            <hr>
+
+            <h2>Why Indian Startup Products Fail: The Common Patterns</h2>
+            <p>After reviewing dozens of products that failed EMC testing, we see the same patterns repeatedly:</p>
+            <ol>
+              <li><strong>Two-layer PCBs with no proper ground plane:</strong> This is the single most common cause of failure. Without a continuous ground plane immediately beneath signal traces, every trace becomes an antenna. A two-layer board with power and ground traces (rather than planes) is virtually guaranteed to fail radiated emissions.</li>
+              <li><strong>Unfiltered or poorly laid out SMPS:</strong> Switching power supplies operating at 100 kHz &ndash; 2 MHz generate harmonics well into the hundreds of MHz. Without proper input filtering (common-mode choke, X/Y capacitors), the conducted emissions will blow through limits. Poor SMPS layout &mdash; long loops between switch, diode, and capacitor &mdash; makes radiated emissions worse.</li>
+              <li><strong>Long unshielded cables acting as antennas:</strong> A 1-metre cable is a quarter-wave antenna at 75 MHz. Unshielded ribbon cables, long I2C runs, or poorly grounded USB cables are extremely efficient radiators. Every cable leaving your enclosure is a potential emissions path.</li>
+              <li><strong>Plastic enclosures with no shielding strategy:</strong> A plastic box provides zero electromagnetic shielding. If your PCB is noisy (and it will be), you need either a metal enclosure, conductive coating on the inside of the plastic, or board-level shielding cans.</li>
+              <li><strong>High-speed clock traces routed carelessly:</strong> Clock signals are the purest narrowband emitters. A 48 MHz USB clock or a 25 MHz Ethernet PHY clock routed on the outer layer without a ground plane reference, or routed near a board edge, will create emissions spikes visible on the spectrum analyser from across the room.</li>
+              <li><strong>Missing ESD protection on external interfaces:</strong> Every connector that a user can touch needs ESD protection. USB, Ethernet, HDMI, GPIO headers, SD card slots &mdash; all of them. TVS diodes are cheap. Board respins are not.</li>
+            </ol>
+
+            <hr>
+
+            <h2>Design-for-Compliance: Getting It Right on the PCB</h2>
+            <p>EMC compliance starts at the schematic and stackup stage, not at the test lab. Here are the core principles:</p>
+
+            <h3>Stackup and Grounding</h3>
+            <ul>
+              <li><strong>Use a 4-layer PCB as your minimum.</strong> The recommended stackup for most designs is: Signal &ndash; Ground &ndash; Power &ndash; Signal. This gives every signal trace an adjacent ground plane reference, which is the single most important factor in controlling emissions.</li>
+              <li><strong>Never split your ground plane.</strong> Slots and splits in the ground plane force return currents to detour around the gap, creating large loop areas that radiate. If you must separate analog and digital grounds, do it with a single-point connection &mdash; never a split.</li>
+              <li><strong>Use via stitching generously.</strong> Place ground vias around the board perimeter, around connectors, and around high-speed signal transitions between layers. A via stitching fence at the board edge creates a pseudo-Faraday cage.</li>
+            </ul>
+
+            <h3>Decoupling and Filtering</h3>
+            <ul>
+              <li><strong>Place 100 nF decoupling capacitors on every power pin.</strong> Use 0402 or 0603 packages for lowest ESL. Place them as close to the IC pin as physically possible, with the shortest return path to the ground plane via a nearby via.</li>
+              <li><strong>Use ferrite beads to isolate noisy power domains.</strong> Place a ferrite bead between the main power rail and the local power island for each noisy IC (microcontrollers, FPGAs, RF modules). Choose ferrite beads based on their impedance at your switching frequency.</li>
+              <li><strong>SMPS layout is critical.</strong> Keep the hot loop (input capacitor &ndash; high-side switch &ndash; inductor &ndash; low-side switch/diode &ndash; back to input capacitor) as small and tight as possible. Use a ground plane directly beneath the SMPS section. Add input EMI filtering (common-mode choke + X2/Y1 capacitors) on the power entry.</li>
+            </ul>
+
+            <h3>Trace Routing and Signal Integrity</h3>
+            <ul>
+              <li><strong>Route clock traces on inner layers.</strong> Keep high-frequency clock signals (USB, Ethernet, SPI at &gt;10 MHz, processor clocks) on inner layers sandwiched between ground planes. If you must route on an outer layer, add a ground guard trace with stitching vias on both sides.</li>
+              <li><strong>Match impedance for high-speed signals.</strong> USB 2.0 requires 90-ohm differential impedance. Ethernet requires 100-ohm differential. Use your PCB manufacturer's stackup calculator to get the trace width right. Impedance discontinuities cause reflections that increase emissions.</li>
+              <li><strong>Keep differential pairs tightly coupled.</strong> Route differential signals (USB, Ethernet, LVDS) with consistent spacing, matched length, and no ground plane discontinuities beneath them.</li>
+            </ul>
+
+            <h3>Shielding and Connectors</h3>
+            <ul>
+              <li><strong>Use shielded connectors for all external interfaces.</strong> USB, Ethernet, HDMI &mdash; always use the shielded variant. Connect the shield to chassis ground (the enclosure), not signal ground, using a low-impedance path.</li>
+              <li><strong>Maintain antenna clearance zones.</strong> If your product has a wireless module (Wi-Fi, BLE, LoRa), keep a ground-plane-free zone beneath and around the antenna per the module manufacturer's reference design. Route no traces through this zone.</li>
+              <li><strong>Design the enclosure for EMC.</strong> If using a metal enclosure, ensure good electrical contact at seams and joints. If using plastic, consider conductive paint or gaskets for shielding. All cable entry points should have filtered or shielded connectors.</li>
+            </ul>
+
+            <hr>
+
+            <h2>The Testing Process: Pre-Compliance Saves Everything</h2>
+            <p>The single biggest money-saving advice we can give: <strong>invest in pre-compliance testing before you go to a certified lab.</strong></p>
+
+            <h3>Pre-Compliance Testing</h3>
+            <p>Pre-compliance testing lets you find and fix 80% of EMC issues at a fraction of the cost of a full test campaign. Here is what you need:</p>
+            <ul>
+              <li><strong>Equipment:</strong> A spectrum analyser (even a second-hand one in the 9 kHz &ndash; 3 GHz range), a set of near-field probes (H-field and E-field), and a LISN for conducted emissions.</li>
+              <li><strong>Cost:</strong> A basic pre-compliance setup costs 1&ndash;2 lakhs INR. Renting a spectrum analyser for a week is also an option.</li>
+              <li><strong>When to test:</strong> As soon as you have a working prototype. Do not wait until the enclosure is finalised. Test the bare board first &mdash; this tells you where the noise sources are. Then test with cables attached, then with the enclosure.</li>
+            </ul>
+            <p>Near-field probing is particularly powerful: by moving an H-field probe over the PCB, you can pinpoint exactly which component, trace, or loop is radiating. This turns a mysterious "fail at 150 MHz" into an actionable "the SMPS inductor loop is too large."</p>
+
+            <h3>Full Compliance Testing</h3>
+            <p>Once you are confident in your pre-compliance results, you go to a NABL-accredited (India) or A2LA/NVLAP-accredited (US) test lab. Key labs in India include:</p>
+            <ul>
+              <li>Tata Elxsi (Bangalore)</li>
+              <li>UL India (Bangalore)</li>
+              <li>Bureau Veritas (Multiple locations)</li>
+              <li>TUV SUD (Bangalore, Pune)</li>
+              <li>SAMEER / ERTL (Government labs)</li>
+            </ul>
+
+            <p>Typical timelines and costs:</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Test Type</th>
+                  <th>Duration</th>
+                  <th>Cost (INR)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>EMC Basic (Emissions + Immunity)</td>
+                  <td>3&ndash;5 days</td>
+                  <td>2&ndash;4 Lakhs</td>
+                </tr>
+                <tr>
+                  <td>FCC Part 15 (Class A or B)</td>
+                  <td>2&ndash;3 days</td>
+                  <td>1.5&ndash;3 Lakhs</td>
+                </tr>
+                <tr>
+                  <td>CE Full (EMC + Safety + RED)</td>
+                  <td>5&ndash;10 days</td>
+                  <td>4&ndash;8 Lakhs</td>
+                </tr>
+                <tr>
+                  <td>Medical (IEC 60601-1-2)</td>
+                  <td>7&ndash;15 days</td>
+                  <td>6&ndash;15 Lakhs</td>
+                </tr>
+                <tr>
+                  <td>BIS Certification</td>
+                  <td>3&ndash;5 days</td>
+                  <td>2&ndash;5 Lakhs</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <hr>
+
+            <h2>Beyond EMC: The Full Certification Picture</h2>
+            <p>EMC compliance is necessary but not sufficient. Depending on your product and market, you may also need:</p>
+            <ul>
+              <li><strong>Safety Certification:</strong> IEC 62368-1 (IT/AV equipment), IEC 60601-1 (medical), IEC 61010 (industrial). Safety testing covers electrical insulation, earthing, fire resistance, and mechanical hazards.</li>
+              <li><strong>Environmental Protection (IP Rating):</strong> If your product operates outdoors or in harsh environments, you will need ingress protection testing. IP65 (dust-tight, water jets) is common for industrial products. This affects enclosure design, connector selection, and cable glands.</li>
+              <li><strong>Reliability (DFMEA):</strong> Design Failure Mode and Effects Analysis should be conducted during the design phase, not after. Identify potential failure modes, their causes, and their effects &mdash; then design mitigations. This is especially critical for medical and automotive products.</li>
+              <li><strong>Radio Type Approval:</strong> If your product contains a radio transmitter (Wi-Fi, BLE, LoRa, cellular), you need type approval from WPC (India), FCC (US), or the relevant national authority. This is separate from EMC testing and has its own test suite (spurious emissions, occupied bandwidth, power spectral density).</li>
+            </ul>
+
+            <hr>
+
+            <h2>A Practical Checklist for Your Next Product</h2>
+            <p>Before sending your next design to the fab house, verify every item on this list:</p>
+            <ul>
+              <li><input type="checkbox" disabled> PCB is 4-layer minimum with dedicated ground plane adjacent to all signal layers</li>
+              <li><input type="checkbox" disabled> 100 nF decoupling capacitor on every power pin, placed within 2 mm of the pin</li>
+              <li><input type="checkbox" disabled> SMPS layout has tight hot loop, ground plane beneath, and input EMI filter</li>
+              <li><input type="checkbox" disabled> TVS/ESD protection on all external-facing connectors (USB, Ethernet, GPIO, SD card)</li>
+              <li><input type="checkbox" disabled> High-speed clock traces routed on inner layers with ground plane reference</li>
+              <li><input type="checkbox" disabled> No signal traces crossing ground plane splits or slots</li>
+              <li><input type="checkbox" disabled> All external connectors are shielded variants with proper shield grounding</li>
+              <li><input type="checkbox" disabled> EMI input filter on power entry (common-mode choke + X/Y capacitors)</li>
+              <li><input type="checkbox" disabled> Enclosure design accounts for shielding (metal, conductive coating, or board-level shields)</li>
+              <li><input type="checkbox" disabled> Pre-compliance testing scheduled before full certification lab booking</li>
+            </ul>
+
+            <hr>
+
+            <h2>The Bottom Line</h2>
+            <p>EMC compliance is not a regulatory hurdle to be cleared at the last minute. It is a fundamental engineering discipline that, when applied from the start of your design, results in products that are more robust, more reliable, and less expensive to certify. The cost of designing for compliance from day one is a fraction of the cost of a failed test, a board respin, and a delayed launch.</p>
+            <p>If you are an Indian hardware startup building a product for global markets, <strong>make EMC a first-class design constraint</strong> &mdash; right alongside power budget, BOM cost, and mechanical fit. Your future self, your test lab, and your customers will thank you.</p>
+
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog CTA -->
+    <section class="section">
+      <div class="container">
+        <div class="blog-cta">
+          <h3 class="blog-cta__title">Need help with EMI/EMC compliance?</h3>
+          <p class="blog-cta__text">From PCB design review to certification strategy — get expert guidance before your first prototype.</p>
+          <a href="contact.html" class="btn btn--primary">Get In Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <h2 class="cta-banner__title">Have a hardware challenge?</h2>
+      <p class="cta-banner__text">Whether it's embedded design, compliance testing, or edge AI — let's talk.</p>
+      <a href="contact.html" class="btn btn--secondary">Get In Touch</a>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand">toN<img src="assets/cleaerr-logo.png" class="logo-zero" alt="">tErr</div>
+          <p class="footer__desc">Tools to Nought Error. Engineering precision into every system &mdash; eliminating errors human, machine, and system.</p>
+        </div>
+        <div>
+          <h4 class="footer__heading">Pages</h4>
+          <div class="footer__links">
+            <a href="index.html" class="footer__link">Home</a>
+            <a href="about.html" class="footer__link">About</a>
+            <a href="consulting.html" class="footer__link">Consulting</a>
+            <a href="tools.html" class="footer__link">Tools</a>
+            <a href="blog.html" class="footer__link">Blog</a>
+            <a href="founder.html" class="footer__link">Founder</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__heading">Connect</h4>
+          <div class="footer__links">
+            <a href="mailto:aravind.cleaerr@gmail.com" class="footer__link">aravind.cleaerr@gmail.com</a>
+            <a href="https://www.linkedin.com/in/aravind-bayari-66496732/" target="_blank" rel="noopener" class="footer__link">LinkedIn</a>
+            <a href="https://github.com/aravindcleaerr" target="_blank" rel="noopener" class="footer__link">GitHub</a>
+            <a href="contact.html" class="footer__link">Contact Us</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; 2017&ndash;2026 toN0tErr / CleaErr Tech Solutions. Bangalore, India.</span>
+        <span>Tools to Nought Error.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

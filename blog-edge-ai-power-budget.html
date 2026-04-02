@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edge AI on a Power Budget | toN0tErr</title>
+  <meta name="description" content="Hard-won lessons from running ML models on embedded Linux for sensor fusion — covering hardware selection, model optimisation, power management, and real-world deployment from the KuboCare project.">
+  <meta name="author" content="toN0tErr / CleaErr Tech Solutions">
+  <link rel="canonical" href="https://tonoterr.vercel.app/blog-edge-ai-power-budget.html">
+
+  <meta property="og:title" content="Edge AI on a Power Budget | toN0tErr">
+  <meta property="og:description" content="Running ML models on embedded Linux for sensor fusion — hardware selection, model optimisation, power management, and deployment lessons from the KuboCare project.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://tonoterr.vercel.app/blog-edge-ai-power-budget.html">
+  <meta property="og:site_name" content="toN0tErr">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/blog.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">toN<img src="assets/cleaerr-logo.png" class="logo-zero" alt="">tErr</a>
+
+      <button type="button" class="nav__hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav__links">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="about.html" class="nav__link">About</a>
+        <a href="consulting.html" class="nav__link">Consulting</a>
+        <a href="tools.html" class="nav__link">Tools</a>
+        <a href="blog.html" class="nav__link">Blog</a>
+        <a href="founder.html" class="nav__link">Founder</a>
+        <a href="contact.html" class="nav__link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <div class="container">
+        <span class="section-label" style="color: rgba(255,255,255,0.6);">Blog</span>
+        <h1 class="page-hero__title">Edge AI on a Power Budget: Running ML Models on Embedded Linux for Sensor Fusion</h1>
+      </div>
+    </section>
+
+    <!-- Blog Post -->
+    <section class="section">
+      <div class="container">
+        <div class="blog-post">
+
+          <a href="blog.html" class="blog-post__back">&larr; All posts</a>
+
+          <div class="blog-post__tags">
+            <span class="tag tag--primary">Edge AI</span>
+            <span class="tag tag--primary">Embedded Linux</span>
+            <span class="tag tag--primary">Sensor Fusion</span>
+            <span class="tag tag--primary">Power Management</span>
+            <span class="tag tag--primary">ML Optimization</span>
+          </div>
+
+          <div class="blog-post__meta">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              2 April 2026
+            </span>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              10 min read
+            </span>
+          </div>
+
+          <div class="blog-post__authors">
+            <a href="founder.html" class="blog-post__author">
+              <div class="blog-post__author-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <div>
+                <div class="blog-post__author-name">Aravind V Bayari</div>
+                <div class="blog-post__author-role">Embedded Systems Architect</div>
+              </div>
+            </a>
+            <a href="https://akshayacreatech.vercel.app/founder" class="blog-post__author" target="_blank" rel="noopener">
+              <div class="blog-post__author-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <div>
+                <div class="blog-post__author-name">Lakshminarasimhan K</div>
+                <div class="blog-post__author-role">Founder, Akshaya Createch</div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Article Body -->
+          <article class="prose">
+
+            <p>The edge AI revolution is not about putting GPT on a Raspberry Pi. It is about running the <em>right</em> model, on the <em>right</em> hardware, within a <em>strict</em> power budget &mdash; and getting reliable results in the field, not just in the lab. This article distils hard-won lessons from deploying ML-based sensor fusion on embedded Linux platforms, drawing directly from KuboCare's mmWave radar processing pipeline for real-time fall detection and health monitoring.</p>
+
+            <p>If you are building a battery-powered or thermally constrained product that needs on-device intelligence, this is the playbook we wish we had when we started.</p>
+
+            <hr>
+
+            <h2>Why Edge, Not Cloud?</h2>
+
+            <p>Before diving into implementation, it is worth understanding why edge inference matters for sensor-heavy products:</p>
+
+            <ul>
+              <li><strong>Latency:</strong> A cloud round-trip adds 50&ndash;300 ms of unpredictable latency. For fall detection, that delay can mean the difference between a timely alert and a missed event. Our target was sub-200 ms end-to-end &mdash; sensor input to classification output.</li>
+              <li><strong>Privacy:</strong> Health monitoring data &mdash; radar point clouds, heart-rate variability, respiration patterns &mdash; should never leave the device unless absolutely necessary. Edge inference keeps raw data local.</li>
+              <li><strong>Connectivity dependence:</strong> KuboCare is deployed in homes and elder-care facilities where Wi-Fi can be unreliable. The system must function fully offline.</li>
+              <li><strong>Recurring cost:</strong> Cloud inference at scale is expensive. A device that processes everything locally has a one-time BOM cost, not a monthly API bill.</li>
+            </ul>
+
+            <h2>Selecting the Right Hardware</h2>
+
+            <p>The hardware decision is the single most consequential choice for edge AI. It determines your power envelope, your model complexity ceiling, and your software stack.</p>
+
+            <h3>ARM Cortex-A vs Cortex-M</h3>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Cortex-A (e.g., A53, A72)</th>
+                  <th>Cortex-M (e.g., M4, M7, M33)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>OS</td>
+                  <td>Full Linux (Yocto, Buildroot)</td>
+                  <td>Bare-metal or RTOS (FreeRTOS, Zephyr)</td>
+                </tr>
+                <tr>
+                  <td>Clock</td>
+                  <td>1.0&ndash;2.0 GHz</td>
+                  <td>100&ndash;600 MHz</td>
+                </tr>
+                <tr>
+                  <td>RAM</td>
+                  <td>512 MB&ndash;4 GB</td>
+                  <td>256 KB&ndash;2 MB</td>
+                </tr>
+                <tr>
+                  <td>Power</td>
+                  <td>0.5&ndash;3 W typical</td>
+                  <td>10&ndash;200 mW typical</td>
+                </tr>
+                <tr>
+                  <td>ML sweet spot</td>
+                  <td>CNNs, RNNs, transformer distillations</td>
+                  <td>Tiny classifiers, keyword spotting, anomaly detection</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>For KuboCare, we chose a <strong>Cortex-A53 quad-core</strong> (NXP i.MX 8M Mini) running Yocto Linux. The sensor fusion pipeline &mdash; fusing mmWave radar point clouds with IMU data and environmental sensors &mdash; demanded the memory and processing headroom that only a Cortex-A class processor could provide. A Cortex-M would have been sufficient for a single-sensor keyword-spotting application, but not for multi-modal fusion with a CNN backbone.</p>
+
+            <h3>Neural Processing Units and DSPs</h3>
+
+            <p>Many modern SoCs include dedicated NPUs or DSPs that can accelerate ML inference at a fraction of the power cost of running the same workload on the main CPU. The i.MX 8M Plus, for instance, includes a 2.3 TOPS NPU. However, NPU support in ML frameworks can be uneven &mdash; operator coverage, quantisation compatibility, and driver maturity vary widely. We evaluated the NPU path but ultimately chose CPU-only inference with aggressive model optimisation, as it provided more predictable behaviour and simpler debugging during development. The NPU remains a future optimisation lever.</p>
+
+            <h2>Model Optimisation: Fitting Intelligence into Milliwatts</h2>
+
+            <p>A stock ResNet-50 requires ~4 GFLOPs per inference. That is far too expensive for a battery-powered device. The goal is to reduce compute and memory requirements by 10&ndash;50x while preserving accuracy within acceptable bounds. Here is what actually works:</p>
+
+            <h3>1. Quantisation</h3>
+
+            <p>Quantisation converts model weights and activations from 32-bit floating point to lower-precision representations, typically <strong>INT8</strong>. This delivers roughly 4x memory reduction and 2&ndash;4x inference speedup on ARM NEON, with minimal accuracy loss for most sensor fusion tasks.</p>
+
+            <ul>
+              <li><strong>Post-Training Quantisation (PTQ):</strong> Apply quantisation after training using a small calibration dataset. Fast to implement, but can degrade accuracy on models with wide dynamic range.</li>
+              <li><strong>Quantisation-Aware Training (QAT):</strong> Insert fake quantisation nodes during training so the model learns to be robust to reduced precision. More effort, but consistently better results.</li>
+            </ul>
+
+            <p><strong>KuboCare results:</strong> QAT on our fall-detection CNN reduced model size from <strong>12 MB to 3.1 MB</strong> and inference time from <strong>420 ms to 95 ms</strong> on the A53, with less than 0.8% accuracy drop on our validation set.</p>
+
+            <h3>2. Pruning</h3>
+
+            <p>Pruning removes weights or entire filters that contribute least to the model's output. <strong>Structured pruning</strong> (removing entire channels or filters) is preferred for embedded targets because it produces genuinely smaller, faster models without requiring sparse-matrix support. <strong>Unstructured pruning</strong> (zeroing individual weights) can achieve higher compression ratios on paper but rarely translates to real speedup on ARM hardware without specialised sparse inference engines.</p>
+
+            <h3>3. Knowledge Distillation and Architecture Search</h3>
+
+            <p>Rather than compressing a large model, another approach is to train a small model from scratch, guided by a larger "teacher" model. We used knowledge distillation to train a lightweight MobileNet-v3-based student model that matched 97% of our original CNN's accuracy at one-fifth the compute. Neural Architecture Search (NAS) tools like <code>Once-for-All</code> can automate this process, but in practice, manual architecture design guided by profiling data was faster for our team.</p>
+
+            <h3>Runtime Selection</h3>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Runtime</th>
+                  <th>Strengths</th>
+                  <th>Considerations</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>TensorFlow Lite</td>
+                  <td>Mature, wide operator coverage, XNNPACK delegate for ARM</td>
+                  <td>Larger binary footprint (~2 MB), Google ecosystem lock-in</td>
+                </tr>
+                <tr>
+                  <td>ONNX Runtime</td>
+                  <td>Framework-agnostic, growing ARM optimisation</td>
+                  <td>Less mature on embedded Linux, fewer community examples</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>We chose <strong>TensorFlow Lite with the XNNPACK delegate</strong> for KuboCare. The XNNPACK delegate leverages ARM NEON SIMD instructions and delivers consistent performance improvements of 2&ndash;3x over the default interpreter on Cortex-A53.</p>
+
+            <h2>Sensor Fusion on Embedded Linux</h2>
+
+            <p>Running a single ML model is one problem. Fusing data from multiple sensor modalities in real time, within a power budget, is a fundamentally harder one.</p>
+
+            <h3>The Fusion Pipeline</h3>
+
+            <p>KuboCare fuses three sensor modalities:</p>
+
+            <ol>
+              <li><strong>mmWave Radar (60 GHz):</strong> 3D point clouds at 20 fps &mdash; the primary sensing modality for presence detection, fall detection, and vital signs extraction.</li>
+              <li><strong>IMU (6-axis):</strong> Accelerometer and gyroscope data at 100 Hz &mdash; used for device orientation compensation and as a secondary fall-detection signal.</li>
+              <li><strong>Environmental sensors:</strong> Temperature, humidity, barometric pressure at 1 Hz &mdash; used for context (e.g., bathroom vs. bedroom affects fall risk priors).</li>
+            </ol>
+
+            <p>The fusion pipeline architecture:</p>
+
+<pre><code>Radar (SPI, 20fps)  ──┐
+                       ├──▶ Feature     ──▶ Fusion   ──▶ Classification ──▶ Alert
+IMU   (I2C, 100Hz) ──┤     Extraction      Engine       (Fall/No-Fall)     Engine
+                       │
+Env   (I2C, 1Hz)   ──┘
+                            ↓
+                       Preprocessing:
+                       - Point cloud clustering (DBSCAN)
+                       - IMU Kalman filtering
+                       - Env sensor moving average
+</code></pre>
+
+            <h3>Timing and Synchronisation</h3>
+
+            <p>The biggest engineering challenge in multi-sensor fusion on embedded Linux is <strong>timing</strong>. Linux is not a real-time OS. Sensor data arrives asynchronously, and the scheduler can introduce jitter. Our approach:</p>
+
+            <ul>
+              <li><strong>Hardware timestamping:</strong> Each sensor driver captures a monotonic timestamp at the interrupt level, before any userspace scheduling delays.</li>
+              <li><strong>Ring buffers:</strong> Each sensor writes to a lock-free ring buffer. The fusion thread reads from all buffers at the inference rate (20 Hz), selecting the most recent sample within a configurable time window.</li>
+              <li><strong>PREEMPT_RT patch:</strong> We run the fusion thread on a PREEMPT_RT-patched kernel with <code>SCHED_FIFO</code> priority, reducing worst-case scheduling latency from ~10 ms to &lt;500 &micro;s.</li>
+            </ul>
+
+            <h3>Pipeline Latency Budget</h3>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Stage</th>
+                  <th>Budget</th>
+                  <th>Measured (P99)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sensor acquisition</td>
+                  <td>10 ms</td>
+                  <td>8 ms</td>
+                </tr>
+                <tr>
+                  <td>Preprocessing (DBSCAN + Kalman)</td>
+                  <td>25 ms</td>
+                  <td>18 ms</td>
+                </tr>
+                <tr>
+                  <td>Feature extraction</td>
+                  <td>15 ms</td>
+                  <td>12 ms</td>
+                </tr>
+                <tr>
+                  <td>ML inference (INT8, XNNPACK)</td>
+                  <td>95 ms</td>
+                  <td>88 ms</td>
+                </tr>
+                <tr>
+                  <td>Post-processing &amp; alert logic</td>
+                  <td>5 ms</td>
+                  <td>3 ms</td>
+                </tr>
+                <tr>
+                  <td><strong>Total</strong></td>
+                  <td><strong>150 ms</strong></td>
+                  <td><strong>129 ms</strong></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>This comfortably meets our sub-200 ms end-to-end target with margin for worst-case conditions.</p>
+
+            <h2>Power Management Strategies</h2>
+
+            <p>Running ML inference 24/7 on a Cortex-A53 would consume around 2.5 W. For a battery-backed or thermally constrained device, that is unacceptable. Here is how we brought it down:</p>
+
+            <ol>
+              <li><strong>CPU frequency scaling:</strong> Use the <code>ondemand</code> or <code>schedutil</code> cpufreq governor to drop clock speed during idle periods. During active inference, we pin to 1.2 GHz (instead of the maximum 1.8 GHz) &mdash; the performance difference is marginal for INT8 workloads, but the power saving is significant.</li>
+              <li><strong>Peripheral power gating:</strong> Disable unused peripherals (HDMI, USB, Ethernet PHY) at the regulator level. On our board, this alone saved 180 mW.</li>
+              <li><strong>Inference duty cycling:</strong> Instead of running inference on every radar frame (20 fps), we use a lightweight presence-detection algorithm on the DSP that triggers full ML inference only when a person is detected in the room. This reduces inference duty cycle to ~30% in typical home use.</li>
+              <li><strong>Memory bandwidth awareness:</strong> INT8 models are not just smaller &mdash; they consume less memory bandwidth. On the i.MX 8M Mini, memory access is one of the largest power consumers. Quantised models reduce DRAM traffic proportionally.</li>
+              <li><strong>Suspend-to-RAM (S2R):</strong> When no presence is detected for 60 seconds, the system enters S2R with only the radar front-end and a wake-on-motion interrupt active. Resume latency is ~120 ms.</li>
+            </ol>
+
+            <p><strong>Result:</strong> Average system power dropped from 2.5 W to <strong>1.4 W during active monitoring</strong> and <strong>35 mW in Suspend-to-RAM</strong> &mdash; enabling operation on a modest 3,000 mAh backup battery for over 80 hours in standby.</p>
+
+            <h2>Edge vs Cloud: It Is Not Binary</h2>
+
+            <p>The best architectures use edge and cloud together, with a clear division of responsibilities:</p>
+
+            <ul>
+              <li><strong>Edge handles:</strong> Real-time inference, privacy-sensitive processing, offline operation, latency-critical alerts.</li>
+              <li><strong>Cloud handles:</strong> Model retraining on aggregated (anonymised) data, fleet-wide analytics, OTA model updates, long-term trend analysis.</li>
+              <li><strong>The boundary:</strong> Only derived features and event summaries leave the device &mdash; never raw sensor data. This is both a privacy design choice and a bandwidth optimisation.</li>
+            </ul>
+
+            <p>KuboCare uploads daily activity summaries and model confidence metrics to the cloud. The cloud pipeline uses these to detect model drift and trigger retraining. Updated models are deployed via OTA &mdash; but the device is never dependent on cloud availability for its core function.</p>
+
+            <h2>Real-World Lessons from KuboCare</h2>
+
+            <p>After 18 months of development and field deployment, here is what surprised us most:</p>
+
+            <ul>
+              <li><strong>Thermal throttling is your real enemy.</strong> Lab benchmarks mean nothing if the SoC throttles in a sealed enclosure at 40&deg;C ambient. We had to redesign our thermal management (adding a copper heat spreader and strategic ventilation) after field units showed 30% inference slowdowns during summer months.</li>
+              <li><strong>Field accuracy differs from lab accuracy.</strong> Our fall-detection model achieved 98.2% accuracy on our test dataset. In real-world deployment, it initially dropped to 91% due to environmental factors we had not captured &mdash; furniture layouts, pets, multiple occupants. Continuous data collection and retraining cycles were essential.</li>
+              <li><strong>OTA model updates are non-negotiable.</strong> The ability to push updated models to deployed devices saved us multiple times. Design your system for model updates from day one &mdash; version the model, validate on-device before switching, and always keep a fallback model.</li>
+              <li><strong>Regulatory compliance adds constraints.</strong> Medical-adjacent devices face additional scrutiny on software changes. Our OTA update process required a full verification and validation cycle for each model update, adding weeks to the iteration cycle. Plan for this.</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+
+            <p>Edge AI on a power budget is not a single problem &mdash; it is a stack of interdependent engineering decisions, from silicon selection to model architecture to power management to deployment infrastructure. The key insight is that <strong>optimisation happens at every layer</strong>, and the gains compound. A quantised model on duty-cycled inference with frequency-scaled CPU on a well-chosen SoC can deliver 10&ndash;20x power reduction compared to a naive deployment &mdash; often the difference between a viable product and a prototype that never ships.</p>
+
+            <p>The tools and techniques described here are not theoretical. They are running in production, in homes, monitoring real people. That is the promise of edge AI &mdash; not flashy demos, but quiet, reliable, power-efficient intelligence at the point of need.</p>
+
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog CTA -->
+    <section class="section">
+      <div class="container">
+        <div class="blog-cta">
+          <h3 class="blog-cta__title">Working on an edge AI project?</h3>
+          <p class="blog-cta__text">Get expert consulting on embedded systems, sensor fusion, and ML deployment at the edge.</p>
+          <a href="contact.html" class="btn btn--primary">Get In Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <h2 class="cta-banner__title">Have a hardware challenge?</h2>
+      <p class="cta-banner__text">Whether it's embedded design, compliance testing, or edge AI — let's talk.</p>
+      <a href="contact.html" class="btn btn--secondary">Get In Touch</a>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand">toN<img src="assets/cleaerr-logo.png" class="logo-zero" alt="">tErr</div>
+          <p class="footer__desc">Tools to Nought Error. Engineering precision into every system &mdash; eliminating errors human, machine, and system.</p>
+        </div>
+        <div>
+          <h4 class="footer__heading">Pages</h4>
+          <div class="footer__links">
+            <a href="index.html" class="footer__link">Home</a>
+            <a href="about.html" class="footer__link">About</a>
+            <a href="consulting.html" class="footer__link">Consulting</a>
+            <a href="tools.html" class="footer__link">Tools</a>
+            <a href="blog.html" class="footer__link">Blog</a>
+            <a href="founder.html" class="footer__link">Founder</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__heading">Connect</h4>
+          <div class="footer__links">
+            <a href="mailto:aravind.cleaerr@gmail.com" class="footer__link">aravind.cleaerr@gmail.com</a>
+            <a href="https://www.linkedin.com/in/aravind-bayari-66496732/" target="_blank" rel="noopener" class="footer__link">LinkedIn</a>
+            <a href="https://github.com/aravindcleaerr" target="_blank" rel="noopener" class="footer__link">GitHub</a>
+            <a href="contact.html" class="footer__link">Contact Us</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>&copy; 2017&ndash;2026 toN0tErr / CleaErr Tech Solutions. Bangalore, India.</span>
+        <span>Tools to Nought Error.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
