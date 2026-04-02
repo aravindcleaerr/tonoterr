@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edge AI on a Power Budget | toN0tErr</title>
-  <meta name="description" content="Hard-won lessons from running ML models on embedded Linux for sensor fusion — covering hardware selection, model optimisation, power management, and real-world deployment of an mmWave radar health-monitoring system.">
+  <meta name="description" content="Lessons from building a contactless elder-care health monitor using mmWave radar and edge AI — covering hardware selection, model optimisation, sensor fusion, and power management on embedded Linux.">
   <meta name="author" content="toN0tErr / CleaErr Tech Solutions">
   <link rel="canonical" href="https://tonoterr.vercel.app/blog-edge-ai-power-budget.html">
 
   <meta property="og:title" content="Edge AI on a Power Budget | toN0tErr">
-  <meta property="og:description" content="Running ML models on embedded Linux for sensor fusion — hardware selection, model optimisation, power management, and real-world deployment lessons.">
+  <meta property="og:description" content="Lessons from building a contactless elder-care health monitor — mmWave radar, edge AI, sensor fusion, and power management on embedded Linux under 2 watts.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://tonoterr.vercel.app/blog-edge-ai-power-budget.html">
   <meta property="og:site_name" content="toN0tErr">
@@ -105,9 +105,26 @@
           <!-- Article Body -->
           <article class="prose">
 
-            <p>The edge AI revolution is not about putting GPT on a Raspberry Pi. It is about running the <em>right</em> model, on the <em>right</em> hardware, within a <em>strict</em> power budget &mdash; and getting reliable results in the field, not just in the lab. This article distils hard-won lessons from deploying ML-based sensor fusion on embedded Linux platforms, drawing directly from a production mmWave radar processing pipeline for real-time fall detection and health monitoring.</p>
+            <p>The edge AI revolution is not about putting GPT on a Raspberry Pi. It is about running the <em>right</em> model, on the <em>right</em> hardware, within a <em>strict</em> power budget &mdash; and getting reliable results in the field, not just in the lab.</p>
 
             <p>If you are building a battery-powered or thermally constrained product that needs on-device intelligence, this is the playbook we wish we had when we started.</p>
+
+            <hr>
+
+            <h2>The Project: Radar-Based Health Monitoring for Elder Care</h2>
+
+            <p>Everything in this article is grounded in a real product we architected and deployed: <strong>a contactless health-monitoring system for elderly care</strong>. The device sits in a room &mdash; a bedroom, a bathroom, a living area &mdash; and uses a <strong>60-GHz mmWave radar</strong> to detect falls, monitor vital signs (respiration rate, heart rate), and track activity patterns, all without cameras or wearables.</p>
+
+            <p>The system fuses data from three sensor modalities &mdash; mmWave radar point clouds, an IMU (accelerometer + gyroscope), and environmental sensors (temperature, humidity, barometric pressure) &mdash; and runs a convolutional neural network on-device to classify events in real time. The target deployment is homes and elder-care facilities across India, where the device must:</p>
+
+            <ul>
+              <li><strong>Respond within 500 ms</strong> of a fall event &mdash; cloud round-trips are too slow and unreliable</li>
+              <li><strong>Preserve privacy</strong> &mdash; no cameras, no audio, and raw sensor data never leaves the device</li>
+              <li><strong>Run 24/7 on under 2 watts</strong> &mdash; silent, fanless, suitable for a bedroom</li>
+              <li><strong>Work offline</strong> &mdash; Wi-Fi in Indian homes and care facilities is not guaranteed</li>
+            </ul>
+
+            <p>These constraints &mdash; latency, privacy, power, and connectivity &mdash; made edge inference the only viable architecture. Every technical decision in this article flows from this context.</p>
 
             <hr>
 
