@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edge AI on a Power Budget | toN0tErr</title>
-  <meta name="description" content="Hard-won lessons from running ML models on embedded Linux for sensor fusion — covering hardware selection, model optimisation, power management, and real-world deployment from the KuboCare project.">
+  <meta name="description" content="Hard-won lessons from running ML models on embedded Linux for sensor fusion — covering hardware selection, model optimisation, power management, and real-world deployment of an mmWave radar health-monitoring system.">
   <meta name="author" content="toN0tErr / CleaErr Tech Solutions">
   <link rel="canonical" href="https://tonoterr.vercel.app/blog-edge-ai-power-budget.html">
 
   <meta property="og:title" content="Edge AI on a Power Budget | toN0tErr">
-  <meta property="og:description" content="Running ML models on embedded Linux for sensor fusion — hardware selection, model optimisation, power management, and deployment lessons from the KuboCare project.">
+  <meta property="og:description" content="Running ML models on embedded Linux for sensor fusion — hardware selection, model optimisation, power management, and real-world deployment lessons.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://tonoterr.vercel.app/blog-edge-ai-power-budget.html">
   <meta property="og:site_name" content="toN0tErr">
@@ -105,7 +105,7 @@
           <!-- Article Body -->
           <article class="prose">
 
-            <p>The edge AI revolution is not about putting GPT on a Raspberry Pi. It is about running the <em>right</em> model, on the <em>right</em> hardware, within a <em>strict</em> power budget &mdash; and getting reliable results in the field, not just in the lab. This article distils hard-won lessons from deploying ML-based sensor fusion on embedded Linux platforms, drawing directly from KuboCare's mmWave radar processing pipeline for real-time fall detection and health monitoring.</p>
+            <p>The edge AI revolution is not about putting GPT on a Raspberry Pi. It is about running the <em>right</em> model, on the <em>right</em> hardware, within a <em>strict</em> power budget &mdash; and getting reliable results in the field, not just in the lab. This article distils hard-won lessons from deploying ML-based sensor fusion on embedded Linux platforms, drawing directly from a production mmWave radar processing pipeline for real-time fall detection and health monitoring.</p>
 
             <p>If you are building a battery-powered or thermally constrained product that needs on-device intelligence, this is the playbook we wish we had when we started.</p>
 
@@ -118,7 +118,7 @@
             <ul>
               <li><strong>Latency:</strong> A cloud round-trip adds 50&ndash;300 ms of unpredictable latency. For fall detection, that delay can mean the difference between a timely alert and a missed event. Our target was sub-200 ms end-to-end &mdash; sensor input to classification output.</li>
               <li><strong>Privacy:</strong> Health monitoring data &mdash; radar point clouds, heart-rate variability, respiration patterns &mdash; should never leave the device unless absolutely necessary. Edge inference keeps raw data local.</li>
-              <li><strong>Connectivity dependence:</strong> KuboCare is deployed in homes and elder-care facilities where Wi-Fi can be unreliable. The system must function fully offline.</li>
+              <li><strong>Connectivity dependence:</strong> Our system is deployed in homes and elder-care facilities where Wi-Fi can be unreliable. The system must function fully offline.</li>
               <li><strong>Recurring cost:</strong> Cloud inference at scale is expensive. A device that processes everything locally has a one-time BOM cost, not a monthly API bill.</li>
             </ul>
 
@@ -165,7 +165,7 @@
               </tbody>
             </table>
 
-            <p>For KuboCare, we chose a <strong>Cortex-A53 quad-core</strong> (NXP i.MX 8M Mini) running Yocto Linux. The sensor fusion pipeline &mdash; fusing mmWave radar point clouds with IMU data and environmental sensors &mdash; demanded the memory and processing headroom that only a Cortex-A class processor could provide. A Cortex-M would have been sufficient for a single-sensor keyword-spotting application, but not for multi-modal fusion with a CNN backbone.</p>
+            <p>For our health-monitoring product, we chose a <strong>Cortex-A53 quad-core</strong> (NXP i.MX 8M Mini) running Yocto Linux. The sensor fusion pipeline &mdash; fusing mmWave radar point clouds with IMU data and environmental sensors &mdash; demanded the memory and processing headroom that only a Cortex-A class processor could provide. A Cortex-M would have been sufficient for a single-sensor keyword-spotting application, but not for multi-modal fusion with a CNN backbone.</p>
 
             <h3>Neural Processing Units and DSPs</h3>
 
@@ -184,7 +184,7 @@
               <li><strong>Quantisation-Aware Training (QAT):</strong> Insert fake quantisation nodes during training so the model learns to be robust to reduced precision. More effort, but consistently better results.</li>
             </ul>
 
-            <p><strong>KuboCare results:</strong> QAT on our fall-detection CNN reduced model size from <strong>12 MB to 3.1 MB</strong> and inference time from <strong>420 ms to 95 ms</strong> on the A53, with less than 0.8% accuracy drop on our validation set.</p>
+            <p><strong>Our results:</strong> QAT on our fall-detection CNN reduced model size from <strong>12 MB to 3.1 MB</strong> and inference time from <strong>420 ms to 95 ms</strong> on the A53, with less than 0.8% accuracy drop on our validation set.</p>
 
             <h3>2. Pruning</h3>
 
@@ -218,7 +218,7 @@
               </tbody>
             </table>
 
-            <p>We chose <strong>TensorFlow Lite with the XNNPACK delegate</strong> for KuboCare. The XNNPACK delegate leverages ARM NEON SIMD instructions and delivers consistent performance improvements of 2&ndash;3x over the default interpreter on Cortex-A53.</p>
+            <p>We chose <strong>TensorFlow Lite with the XNNPACK delegate</strong> for this project. The XNNPACK delegate leverages ARM NEON SIMD instructions and delivers consistent performance improvements of 2&ndash;3x over the default interpreter on Cortex-A53.</p>
 
             <h2>Sensor Fusion on Embedded Linux</h2>
 
@@ -226,7 +226,7 @@
 
             <h3>The Fusion Pipeline</h3>
 
-            <p>KuboCare fuses three sensor modalities:</p>
+            <p>Our system fuses three sensor modalities:</p>
 
             <ol>
               <li><strong>mmWave Radar (60 GHz):</strong> 3D point clouds at 20 fps &mdash; the primary sensing modality for presence detection, fall detection, and vital signs extraction.</li>
@@ -328,9 +328,9 @@ Env   (I2C, 1Hz)   ──┘
               <li><strong>The boundary:</strong> Only derived features and event summaries leave the device &mdash; never raw sensor data. This is both a privacy design choice and a bandwidth optimisation.</li>
             </ul>
 
-            <p>KuboCare uploads daily activity summaries and model confidence metrics to the cloud. The cloud pipeline uses these to detect model drift and trigger retraining. Updated models are deployed via OTA &mdash; but the device is never dependent on cloud availability for its core function.</p>
+            <p>Our system uploads daily activity summaries and model confidence metrics to the cloud. The cloud pipeline uses these to detect model drift and trigger retraining. Updated models are deployed via OTA &mdash; but the device is never dependent on cloud availability for its core function.</p>
 
-            <h2>Real-World Lessons from KuboCare</h2>
+            <h2>Real-World Lessons from Field Deployment</h2>
 
             <p>After 18 months of development and field deployment, here is what surprised us most:</p>
 
