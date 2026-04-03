@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2b6cb0"/>
+    </marker>
+    <marker id="arrowhead-orange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ed8936"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e53e3e"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="white"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a365d">EMI/EMC Overview: Sources, Coupling Paths, and Victims</text>
+
+  <!-- SOURCE Box -->
+  <rect x="40" y="160" width="180" height="180" rx="10" fill="#1a365d" opacity="0.1" stroke="#1a365d" stroke-width="2"/>
+  <rect x="40" y="160" width="180" height="36" rx="10" fill="#1a365d"/>
+  <text x="130" y="183" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">EMI SOURCE</text>
+
+  <!-- Source items -->
+  <text x="55" y="215" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; Switch-Mode PSU</text>
+  <text x="55" y="235" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; Digital Clocks/MCU</text>
+  <text x="55" y="255" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; Motor Drivers</text>
+  <text x="55" y="275" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; RF Transmitters</text>
+  <text x="55" y="295" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; High-Speed Data Lines</text>
+  <text x="55" y="315" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; LED Drivers</text>
+
+  <!-- Lightning bolt icon on source -->
+  <polygon points="125,75 115,120 125,115 118,155 140,105 128,110 138,75" fill="#ed8936" opacity="0.7"/>
+
+  <!-- VICTIM Box -->
+  <rect x="580" y="160" width="180" height="180" rx="10" fill="#e53e3e" opacity="0.1" stroke="#e53e3e" stroke-width="2"/>
+  <rect x="580" y="160" width="180" height="36" rx="10" fill="#e53e3e"/>
+  <text x="670" y="183" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">VICTIM</text>
+
+  <!-- Victim items -->
+  <text x="595" y="215" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; Sensitive Analog Circuits</text>
+  <text x="595" y="235" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; Radio Receivers</text>
+  <text x="595" y="255" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; Medical Instruments</text>
+  <text x="595" y="275" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; Navigation Systems</text>
+  <text x="595" y="295" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; Communication Links</text>
+  <text x="595" y="315" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">&#8226; Sensor Interfaces</text>
+
+  <!-- COUPLING PATHS - Center area -->
+  <!-- Radiated path (top) -->
+  <rect x="280" y="100" width="240" height="70" rx="8" fill="#ed8936" opacity="0.15" stroke="#ed8936" stroke-width="2"/>
+  <text x="400" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ed8936">RADIATED COUPLING</text>
+  <text x="400" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">30 MHz -- 6 GHz (through air)</text>
+
+  <!-- Radiated arrows -->
+  <line x1="220" y1="200" x2="280" y2="135" stroke="#ed8936" stroke-width="2" marker-end="url(#arrowhead-orange)"/>
+  <line x1="520" y1="135" x2="578" y2="200" stroke="#ed8936" stroke-width="2" marker-end="url(#arrowhead-orange)"/>
+
+  <!-- Wave symbols for radiated -->
+  <path d="M 335 80 Q 345 70 355 80 Q 365 90 375 80" fill="none" stroke="#ed8936" stroke-width="1.5" opacity="0.6"/>
+  <path d="M 395 80 Q 405 70 415 80 Q 425 90 435 80" fill="none" stroke="#ed8936" stroke-width="1.5" opacity="0.6"/>
+  <path d="M 455 80 Q 465 70 475 80 Q 485 90 495 80" fill="none" stroke="#ed8936" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Conducted path (bottom) -->
+  <rect x="280" y="330" width="240" height="70" rx="8" fill="#2b6cb0" opacity="0.15" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="400" y="355" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#2b6cb0">CONDUCTED COUPLING</text>
+  <text x="400" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1a365d">150 kHz -- 30 MHz (through wires)</text>
+
+  <!-- Conducted arrows -->
+  <line x1="220" y1="310" x2="280" y2="365" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="520" y1="365" x2="578" y2="310" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Wire symbols for conducted -->
+  <line x1="310" y1="410" x2="330" y2="410" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="330" y1="410" x2="340" y2="420" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="340" y1="420" x2="360" y2="400" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="360" y1="400" x2="380" y2="420" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="380" y1="420" x2="400" y2="400" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="400" y1="400" x2="420" y2="420" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="420" y1="420" x2="440" y2="400" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="440" y1="400" x2="450" y2="410" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="450" y1="410" x2="470" y2="410" stroke="#2b6cb0" stroke-width="2"/>
+
+  <!-- Center label -->
+  <rect x="340" y="220" width="120" height="60" rx="8" fill="#4299e1" opacity="0.15" stroke="#4299e1" stroke-width="2"/>
+  <text x="400" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1a365d">COUPLING</text>
+  <text x="400" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1a365d">PATHS</text>
+
+  <!-- Direct coupling arrows through center -->
+  <line x1="220" y1="250" x2="338" y2="250" stroke="#4299e1" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowhead)"/>
+  <line x1="462" y1="250" x2="578" y2="250" stroke="#4299e1" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowhead)"/>
+
+  <!-- Bottom legend -->
+  <rect x="120" y="455" width="560" height="35" rx="6" fill="#f7fafc" stroke="#1a365d" stroke-width="1"/>
+  <text x="400" y="477" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#1a365d" font-style="italic">Emissions testing measures what your product puts out; Immunity testing measures what it can withstand</text>
+</svg>

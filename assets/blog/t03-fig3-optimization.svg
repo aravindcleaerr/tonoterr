@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2b6cb0"/>
+    </marker>
+    <filter id="ds" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="white"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a365d">Model Optimisation Pipeline: From Training to Deployment</text>
+
+  <!-- === Stage 1: Full Model === -->
+  <rect x="30" y="75" width="155" height="180" rx="10" fill="#e53e3e" filter="url(#ds)"/>
+  <text x="107" y="100" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="white">Full Model</text>
+  <text x="107" y="118" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#fff5f5">(FP32)</text>
+
+  <!-- Size bar -->
+  <rect x="48" y="135" width="120" height="18" rx="4" fill="#feb2b2"/>
+  <rect x="48" y="135" width="120" height="18" rx="4" fill="rgba(255,255,255,0.3)"/>
+  <text x="108" y="148" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#1a365d">12.0 MB</text>
+
+  <!-- Accuracy -->
+  <text x="107" y="175" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Accuracy: 96.2%</text>
+  <!-- Latency -->
+  <text x="107" y="195" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Latency: 420 ms</text>
+  <!-- Power -->
+  <text x="107" y="215" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Power: 3.8 W</text>
+
+  <text x="107" y="245" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#feb2b2">Too slow, too large</text>
+
+  <!-- Arrow 1 -->
+  <line x1="185" y1="165" x2="225" y2="165" stroke="#2b6cb0" stroke-width="2.5" marker-end="url(#arr)"/>
+  <text x="205" y="155" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="bold" fill="#2b6cb0" transform="rotate(-90, 205, 155)"> </text>
+
+  <!-- === Stage 2: Quantised === -->
+  <rect x="230" y="75" width="155" height="180" rx="10" fill="#ed8936" filter="url(#ds)"/>
+  <text x="307" y="100" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="white">Quantised</text>
+  <text x="307" y="118" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#fefcbf">(INT8)</text>
+
+  <!-- Size bar -->
+  <rect x="258" y="135" width="98" height="18" rx="4" fill="#fbd38d"/>
+  <rect x="258" y="135" width="31" height="18" rx="4" fill="rgba(255,255,255,0.4)"/>
+  <text x="307" y="148" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#1a365d">3.1 MB (4x smaller)</text>
+
+  <text x="307" y="175" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Accuracy: 95.8%</text>
+  <text x="307" y="195" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Latency: 95 ms</text>
+  <text x="307" y="215" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Power: 1.6 W</text>
+
+  <text x="307" y="245" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#fefcbf">-0.4% accuracy loss</text>
+
+  <!-- Arrow 2 -->
+  <line x1="385" y1="165" x2="425" y2="165" stroke="#2b6cb0" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- === Stage 3: Pruned === -->
+  <rect x="430" y="75" width="155" height="180" rx="10" fill="#4299e1" filter="url(#ds)"/>
+  <text x="507" y="100" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="white">Pruned</text>
+  <text x="507" y="118" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#bee3f8">(50% sparse)</text>
+
+  <!-- Size bar -->
+  <rect x="458" y="135" width="98" height="18" rx="4" fill="#90cdf4"/>
+  <rect x="458" y="135" width="16" height="18" rx="4" fill="rgba(255,255,255,0.4)"/>
+  <text x="507" y="148" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#1a365d">1.8 MB (6.7x smaller)</text>
+
+  <text x="507" y="175" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Accuracy: 95.4%</text>
+  <text x="507" y="195" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Latency: 62 ms</text>
+  <text x="507" y="215" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Power: 1.2 W</text>
+
+  <text x="507" y="245" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#bee3f8">-0.8% total accuracy loss</text>
+
+  <!-- Arrow 3 -->
+  <line x1="585" y1="165" x2="625" y2="165" stroke="#2b6cb0" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- === Stage 4: Deployed === -->
+  <rect x="630" y="75" width="145" height="180" rx="10" fill="#48bb78" filter="url(#ds)"/>
+  <text x="702" y="100" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="white">Deployed</text>
+  <text x="702" y="118" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#c6f6d5">(TFLite on Cortex-A53)</text>
+
+  <!-- Size bar -->
+  <rect x="650" y="135" width="98" height="18" rx="4" fill="#9ae6b4"/>
+  <rect x="650" y="135" width="14" height="18" rx="4" fill="rgba(255,255,255,0.4)"/>
+  <text x="702" y="148" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="bold" fill="#1a365d">1.8 MB final</text>
+
+  <text x="702" y="175" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Accuracy: 95.4%</text>
+  <text x="702" y="195" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Latency: 62 ms</text>
+  <text x="702" y="215" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="white">Power: 1.2 W</text>
+
+  <text x="702" y="245" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="9" fill="#c6f6d5">Meets all targets</text>
+
+  <!-- === Bottom summary bar === -->
+  <rect x="30" y="290" width="745" height="55" rx="8" fill="#ebf8ff" stroke="#2b6cb0" stroke-width="1.5"/>
+  <text x="400" y="312" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" fill="#1a365d">Optimisation Summary</text>
+  <text x="145" y="335" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#2b6cb0">Size: 12 MB --> 1.8 MB (6.7x)</text>
+  <text x="400" y="335" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#2b6cb0">Latency: 420 ms --> 62 ms (6.8x)</text>
+  <text x="650" y="335" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#2b6cb0">Power: 3.8 W --> 1.2 W (3.2x)</text>
+
+  <!-- === Technique labels below === -->
+  <text x="167" y="385" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="#1a365d">Key Techniques</text>
+
+  <!-- Technique boxes -->
+  <rect x="30" y="400" width="170" height="40" rx="6" fill="#1a365d"/>
+  <text x="115" y="424" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="white">Post-Training Quantisation</text>
+
+  <rect x="215" y="400" width="170" height="40" rx="6" fill="#1a365d"/>
+  <text x="300" y="424" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="white">Structured Pruning</text>
+
+  <rect x="400" y="400" width="170" height="40" rx="6" fill="#1a365d"/>
+  <text x="485" y="424" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="white">Knowledge Distillation</text>
+
+  <rect x="585" y="400" width="170" height="40" rx="6" fill="#1a365d"/>
+  <text x="670" y="424" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="white">Runtime Optimisation</text>
+
+  <!-- Figure label -->
+  <text x="400" y="480" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#718096">Figure 3 -- Model Optimisation Pipeline: Size, Latency, and Power Reduction at Each Stage</text>
+</svg>

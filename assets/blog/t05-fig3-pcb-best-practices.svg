@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2b6cb0"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="white"/>
+
+  <!-- Title -->
+  <text x="400" y="32" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a365d">PCB Layout Best Practices for EMC Compliance</text>
+
+  <!-- ============ CENTRAL PCB BOARD ============ -->
+  <rect x="220" y="55" width="360" height="280" rx="8" fill="#1a8a4a" opacity="0.12" stroke="#1a365d" stroke-width="2"/>
+  <text x="400" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1a365d">4-LAYER PCB (Top View)</text>
+
+  <!-- Layer stackup label in PCB -->
+  <rect x="235" y="85" width="140" height="60" rx="4" fill="white" stroke="#2b6cb0" stroke-width="1"/>
+  <text x="305" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#1a365d">STACKUP</text>
+  <rect x="242" y="105" width="126" height="8" rx="2" fill="#4299e1"/>
+  <text x="375" y="113" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L1: Signal</text>
+  <rect x="242" y="115" width="126" height="8" rx="2" fill="#48bb78"/>
+  <text x="375" y="123" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L2: GND (solid)</text>
+  <rect x="242" y="125" width="126" height="8" rx="2" fill="#ed8936"/>
+  <text x="375" y="133" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L3: Power</text>
+  <rect x="242" y="135" width="126" height="8" rx="2" fill="#4299e1"/>
+  <text x="375" y="143" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L4: Signal</text>
+
+  <!-- IC component (center of board) -->
+  <rect x="350" y="170" width="60" height="60" rx="2" fill="#1a365d"/>
+  <text x="380" y="197" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">MCU /</text>
+  <text x="380" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">SoC</text>
+
+  <!-- Decoupling caps near IC -->
+  <rect x="340" y="155" width="12" height="8" rx="2" fill="#ed8936" stroke="#1a365d" stroke-width="0.5"/>
+  <rect x="360" y="155" width="12" height="8" rx="2" fill="#ed8936" stroke="#1a365d" stroke-width="0.5"/>
+  <rect x="380" y="155" width="12" height="8" rx="2" fill="#ed8936" stroke="#1a365d" stroke-width="0.5"/>
+  <rect x="400" y="155" width="12" height="8" rx="2" fill="#ed8936" stroke="#1a365d" stroke-width="0.5"/>
+  <text x="376" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#ed8936">100nF caps (&lt;2mm from pins)</text>
+
+  <!-- Clock trace (inner layer, short) -->
+  <line x1="350" y1="200" x2="290" y2="200" stroke="#4299e1" stroke-width="2"/>
+  <rect x="270" y="192" width="20" height="16" rx="2" fill="#4299e1" stroke="#1a365d" stroke-width="0.5"/>
+  <text x="280" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="white">XTAL</text>
+  <text x="310" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#4299e1">Short clock trace</text>
+
+  <!-- Series termination resistor on clock -->
+  <rect x="320" y="196" width="10" height="6" rx="1" fill="#2b6cb0"/>
+  <text x="325" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2b6cb0">33R</text>
+
+  <!-- Ground via stitching around perimeter -->
+  <g fill="#48bb78" opacity="0.7">
+    <circle cx="232" cy="68" r="3"/><circle cx="248" cy="68" r="3"/><circle cx="264" cy="68" r="3"/><circle cx="280" cy="68" r="3"/>
+    <circle cx="296" cy="68" r="3"/><circle cx="312" cy="68" r="3"/><circle cx="328" cy="68" r="3"/><circle cx="344" cy="68" r="3"/>
+    <circle cx="360" cy="68" r="3"/><circle cx="376" cy="68" r="3"/><circle cx="392" cy="68" r="3"/><circle cx="408" cy="68" r="3"/>
+    <circle cx="424" cy="68" r="3"/><circle cx="440" cy="68" r="3"/><circle cx="456" cy="68" r="3"/><circle cx="472" cy="68" r="3"/>
+    <circle cx="488" cy="68" r="3"/><circle cx="504" cy="68" r="3"/><circle cx="520" cy="68" r="3"/><circle cx="536" cy="68" r="3"/>
+    <circle cx="552" cy="68" r="3"/><circle cx="568" cy="68" r="3"/>
+    <!-- Bottom row -->
+    <circle cx="232" cy="323" r="3"/><circle cx="248" cy="323" r="3"/><circle cx="264" cy="323" r="3"/><circle cx="280" cy="323" r="3"/>
+    <circle cx="296" cy="323" r="3"/><circle cx="312" cy="323" r="3"/><circle cx="328" cy="323" r="3"/><circle cx="344" cy="323" r="3"/>
+    <circle cx="360" cy="323" r="3"/><circle cx="376" cy="323" r="3"/><circle cx="392" cy="323" r="3"/><circle cx="408" cy="323" r="3"/>
+    <circle cx="424" cy="323" r="3"/><circle cx="440" cy="323" r="3"/><circle cx="456" cy="323" r="3"/><circle cx="472" cy="323" r="3"/>
+    <circle cx="488" cy="323" r="3"/><circle cx="504" cy="323" r="3"/><circle cx="520" cy="323" r="3"/><circle cx="536" cy="323" r="3"/>
+    <circle cx="552" cy="323" r="3"/><circle cx="568" cy="323" r="3"/>
+    <!-- Left column -->
+    <circle cx="232" cy="84" r="3"/><circle cx="232" cy="100" r="3"/><circle cx="232" cy="116" r="3"/>
+    <circle cx="232" cy="132" r="3"/><circle cx="232" cy="148" r="3"/><circle cx="232" cy="164" r="3"/>
+    <circle cx="232" cy="180" r="3"/><circle cx="232" cy="196" r="3"/><circle cx="232" cy="212" r="3"/>
+    <circle cx="232" cy="228" r="3"/><circle cx="232" cy="244" r="3"/><circle cx="232" cy="260" r="3"/>
+    <circle cx="232" cy="276" r="3"/><circle cx="232" cy="292" r="3"/><circle cx="232" cy="308" r="3"/>
+    <!-- Right column -->
+    <circle cx="568" cy="84" r="3"/><circle cx="568" cy="100" r="3"/><circle cx="568" cy="116" r="3"/>
+    <circle cx="568" cy="132" r="3"/><circle cx="568" cy="148" r="3"/><circle cx="568" cy="164" r="3"/>
+    <circle cx="568" cy="180" r="3"/><circle cx="568" cy="196" r="3"/><circle cx="568" cy="212" r="3"/>
+    <circle cx="568" cy="228" r="3"/><circle cx="568" cy="244" r="3"/><circle cx="568" cy="260" r="3"/>
+    <circle cx="568" cy="276" r="3"/><circle cx="568" cy="292" r="3"/><circle cx="568" cy="308" r="3"/>
+  </g>
+
+  <!-- Connector with ESD protection -->
+  <rect x="530" y="170" width="40" height="50" rx="3" fill="#1a365d" stroke="#1a365d" stroke-width="1"/>
+  <text x="550" y="192" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="white">USB</text>
+  <text x="550" y="204" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="white">Conn</text>
+  <!-- TVS diode -->
+  <rect x="500" y="180" width="22" height="12" rx="2" fill="#e53e3e" stroke="#1a365d" stroke-width="0.5"/>
+  <text x="511" y="189" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="white">TVS</text>
+  <text x="511" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#e53e3e">ESD protection</text>
+
+  <!-- SMPS area (bottom left of board) -->
+  <rect x="240" y="250" width="100" height="70" rx="4" fill="#ed8936" opacity="0.2" stroke="#ed8936" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="290" y="268" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#ed8936">SMPS AREA</text>
+  <text x="290" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#1a365d">Tight loop area</text>
+  <!-- Inductor -->
+  <rect x="255" y="288" width="20" height="14" rx="2" fill="#ed8936" stroke="#1a365d" stroke-width="0.5"/>
+  <text x="265" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="white">L</text>
+  <!-- Input cap -->
+  <rect x="282" y="288" width="14" height="14" rx="2" fill="#ed8936" stroke="#1a365d" stroke-width="0.5"/>
+  <text x="289" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="white">Cin</text>
+  <!-- Output cap -->
+  <rect x="302" y="288" width="14" height="14" rx="2" fill="#ed8936" stroke="#1a365d" stroke-width="0.5"/>
+  <text x="309" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="white">Co</text>
+
+  <!-- Differential pair traces -->
+  <line x1="410" y1="200" x2="497" y2="190" stroke="#4299e1" stroke-width="1.5"/>
+  <line x1="410" y1="207" x2="497" y2="197" stroke="#4299e1" stroke-width="1.5"/>
+  <text x="455" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#4299e1">Diff pair (tight coupling)</text>
+
+  <!-- Ferrite bead on power input -->
+  <rect x="240" y="230" width="18" height="10" rx="3" fill="#2b6cb0" stroke="#1a365d" stroke-width="0.5"/>
+  <text x="249" y="238" text-anchor="middle" font-family="Arial, sans-serif" font-size="5" fill="white">FB</text>
+  <text x="275" y="238" font-family="Arial, sans-serif" font-size="7" fill="#2b6cb0">Ferrite bead</text>
+
+  <!-- ============ CALLOUT BOXES ============ -->
+
+  <!-- Callout 1: Ground Plane (top-left) -->
+  <rect x="10" y="55" width="195" height="65" rx="6" fill="#48bb78" opacity="0.12" stroke="#48bb78" stroke-width="1.5"/>
+  <circle cx="25" cy="70" r="10" fill="#48bb78"/>
+  <text x="25" y="74" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">1</text>
+  <text x="40" y="74" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1a365d">Solid Ground Plane</text>
+  <text x="20" y="90" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">Unbroken L2 ground provides</text>
+  <text x="20" y="102" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">low-impedance return path</text>
+  <text x="20" y="114" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">for all signals. Never split it.</text>
+
+  <!-- Callout 2: Via Stitching (left) -->
+  <rect x="10" y="135" width="195" height="55" rx="6" fill="#48bb78" opacity="0.12" stroke="#48bb78" stroke-width="1.5"/>
+  <circle cx="25" cy="150" r="10" fill="#48bb78"/>
+  <text x="25" y="154" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">2</text>
+  <text x="40" y="154" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1a365d">Via Stitching</text>
+  <text x="20" y="170" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">Ground vias around perimeter</text>
+  <text x="20" y="182" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">create Faraday cage effect</text>
+
+  <!-- Callout 3: Decoupling (left bottom) -->
+  <rect x="10" y="205" width="195" height="55" rx="6" fill="#ed8936" opacity="0.12" stroke="#ed8936" stroke-width="1.5"/>
+  <circle cx="25" cy="220" r="10" fill="#ed8936"/>
+  <text x="25" y="224" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">3</text>
+  <text x="40" y="224" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1a365d">Decoupling Capacitors</text>
+  <text x="20" y="240" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">100nF within 2mm of every IC</text>
+  <text x="20" y="252" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">power pin. Short, wide traces.</text>
+
+  <!-- Callout 4: Clock Routing (right top) -->
+  <rect x="595" y="55" width="195" height="55" rx="6" fill="#4299e1" opacity="0.12" stroke="#4299e1" stroke-width="1.5"/>
+  <circle cx="610" cy="70" r="10" fill="#4299e1"/>
+  <text x="610" y="74" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">4</text>
+  <text x="625" y="74" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1a365d">Clock Routing</text>
+  <text x="605" y="90" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">Inner layers, short traces, series</text>
+  <text x="605" y="102" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">termination (22-47 ohm)</text>
+
+  <!-- Callout 5: ESD Protection (right) -->
+  <rect x="595" y="125" width="195" height="55" rx="6" fill="#e53e3e" opacity="0.12" stroke="#e53e3e" stroke-width="1.5"/>
+  <circle cx="610" cy="140" r="10" fill="#e53e3e"/>
+  <text x="610" y="144" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">5</text>
+  <text x="625" y="144" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1a365d">ESD Protection</text>
+  <text x="605" y="160" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">TVS diodes on every external</text>
+  <text x="605" y="172" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">connector (USB, ETH, SIM, etc.)</text>
+
+  <!-- Callout 6: SMPS Layout (right) -->
+  <rect x="595" y="195" width="195" height="65" rx="6" fill="#ed8936" opacity="0.12" stroke="#ed8936" stroke-width="1.5"/>
+  <circle cx="610" cy="210" r="10" fill="#ed8936"/>
+  <text x="610" y="214" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">6</text>
+  <text x="625" y="214" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1a365d">SMPS Layout</text>
+  <text x="605" y="230" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">Minimise switching loop area.</text>
+  <text x="605" y="242" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">Follow IC vendor reference.</text>
+  <text x="605" y="254" font-family="Arial, sans-serif" font-size="9" fill="#1a365d">Add input EMI filter (CMC+caps).</text>
+
+  <!-- ============ BOTTOM SUMMARY BAR ============ -->
+  <rect x="20" y="350" width="760" height="140" rx="8" fill="#1a365d" opacity="0.06" stroke="#1a365d" stroke-width="1"/>
+  <text x="400" y="372" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a365d">Top 6 Rules That Prevent 80% of EMC Failures</text>
+
+  <!-- Rule boxes in 2 rows of 3 -->
+  <rect x="35" y="385" width="235" height="40" rx="5" fill="#48bb78" opacity="0.15" stroke="#48bb78" stroke-width="1"/>
+  <text x="152" y="402" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1a365d">1. Use 4+ layer stackup with</text>
+  <text x="152" y="416" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1a365d">unbroken ground plane</text>
+
+  <rect x="283" y="385" width="235" height="40" rx="5" fill="#ed8936" opacity="0.15" stroke="#ed8936" stroke-width="1"/>
+  <text x="400" y="402" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1a365d">2. Decoupling caps &lt;2mm</text>
+  <text x="400" y="416" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1a365d">from every power pin</text>
+
+  <rect x="531" y="385" width="235" height="40" rx="5" fill="#4299e1" opacity="0.15" stroke="#4299e1" stroke-width="1"/>
+  <text x="648" y="402" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1a365d">3. Short clock traces on inner</text>
+  <text x="648" y="416" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1a365d">layers with termination</text>
+
+  <rect x="35" y="435" width="235" height="40" rx="5" fill="#e53e3e" opacity="0.15" stroke="#e53e3e" stroke-width="1"/>
+  <text x="152" y="452" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1a365d">4. TVS diodes on all</text>
+  <text x="152" y="466" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1a365d">external connectors</text>
+
+  <rect x="283" y="435" width="235" height="40" rx="5" fill="#ed8936" opacity="0.15" stroke="#ed8936" stroke-width="1"/>
+  <text x="400" y="452" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1a365d">5. Filter SMPS: minimise</text>
+  <text x="400" y="466" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1a365d">switching loop area</text>
+
+  <rect x="531" y="435" width="235" height="40" rx="5" fill="#2b6cb0" opacity="0.15" stroke="#2b6cb0" stroke-width="1"/>
+  <text x="648" y="452" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1a365d">6. Shielded connectors +</text>
+  <text x="648" y="466" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1a365d">enclosure EMC design</text>
+</svg>

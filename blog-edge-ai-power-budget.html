@@ -128,6 +128,8 @@
 
             <hr>
 
+            <img src="assets/blog/t03-fig1-edge-vs-cloud.svg" alt="Edge vs Cloud Processing Trade-offs" style="width:100%;border-radius:12px;margin:2rem 0;border:1px solid var(--border-light);">
+
             <h2>Why Edge, Not Cloud?</h2>
 
             <p>Before diving into implementation, it is worth understanding why edge inference matters for sensor-heavy products:</p>
@@ -188,6 +190,8 @@
 
             <p>Many modern SoCs include dedicated NPUs or DSPs that can accelerate ML inference at a fraction of the power cost of running the same workload on the main CPU. The i.MX 8M Plus, for instance, includes a 2.3 TOPS NPU. However, NPU support in ML frameworks can be uneven &mdash; operator coverage, quantisation compatibility, and driver maturity vary widely. We evaluated the NPU path but ultimately chose CPU-only inference with aggressive model optimisation, as it provided more predictable behaviour and simpler debugging during development. The NPU remains a future optimisation lever.</p>
 
+            <img src="assets/blog/t03-fig2-ml-pipeline.svg" alt="ML Pipeline: From Training to Edge Deployment" style="width:100%;border-radius:12px;margin:2rem 0;border:1px solid var(--border-light);">
+
             <h2>Model Optimisation: Fitting Intelligence into Milliwatts</h2>
 
             <p>A stock ResNet-50 requires ~4 GFLOPs per inference. That is far too expensive for a battery-powered device. The goal is to reduce compute and memory requirements by 10&ndash;50x while preserving accuracy within acceptable bounds. Here is what actually works:</p>
@@ -236,6 +240,8 @@
             </table>
 
             <p>We chose <strong>TensorFlow Lite with the XNNPACK delegate</strong> for this project. The XNNPACK delegate leverages ARM NEON SIMD instructions and delivers consistent performance improvements of 2&ndash;3x over the default interpreter on Cortex-A53.</p>
+
+            <img src="assets/blog/t03-fig3-optimization.svg" alt="Model Optimization Techniques" style="width:100%;border-radius:12px;margin:2rem 0;border:1px solid var(--border-light);">
 
             <h2>Sensor Fusion on Embedded Linux</h2>
 
