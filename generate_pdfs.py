@@ -304,6 +304,29 @@ def generate_tool_pdf(tool):
 # ── Tool Data ──
 TOOLS = [
     {
+        "id": "testok",
+        "name": "TestOK",
+        "subtitle": "Design-Aware Test Instrument Layer",
+        "badge": "Test & Measurement",
+        "description": (
+            "An AI intelligence layer that makes bench instruments design-aware. It reads the "
+            "device's datasheet, configures the PSU / electronic load / DMM / scope itself, runs "
+            "the measurements, and interprets the results against design intent — closing both "
+            "the setup and the analysis loop that engineers do by hand on every new board."
+        ),
+        "features": [
+            "Datasheet Ingestion — reads the DUT datasheet to derive test points, limits, and stimulus",
+            "Auto-Configuration — drives PSU, electronic load, DMM, and scope with no manual setup per board",
+            "Closed-Loop Verdict — runs the measurements and diagnoses anomalies against design intent",
+            "Live Console — real-time streaming of each run with exportable pass/fail reports",
+            "Hardware-Free Demo — simulated bench + mock LLM, runs with no instruments and no API key",
+        ],
+        "tags": ["Datasheet AI", "Instrument Control", "Python + Flask", "Closed-Loop"],
+        "error_from": "Manual instrument setup and blind readings",
+        "error_to": "AI-configured, design-checked",
+        "url": "https://testok-w654.onrender.com",
+    },
+    {
         "id": "prodsync",
         "name": "ProdSync",
         "subtitle": "Production Scanner App",
