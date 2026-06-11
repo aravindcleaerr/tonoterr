@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Software Tools | toN0tErr — Manufacturing QC, Energy Management, PCB Inspection</title>
-  <meta name="description" content="Open-source and production tools: ProdSync (AI manufacturing QC), VoltSpark (energy compliance platform), PartOK (mechanical part inspection), PCBok (AI-powered PCB inspector).">
+  <meta name="description" content="Open-source and production tools: TestOK (design-aware test &amp; measurement AI), ProdSync (AI manufacturing QC), VoltSpark (energy compliance platform), PartOK (mechanical part inspection), PCBok (AI-powered PCB inspector).">
   <meta name="author" content="toN0tErr / CleaErr Tech Solutions">
   <link rel="canonical" href="https://aravindcleaerr.github.io/tonoterr/tools.html">
 
@@ -73,7 +73,42 @@
 
         <div class="tools-grid">
 
-          <!-- 1. ProdSync -->
+          <!-- 1. TestOK -->
+          <article class="tool-card reveal">
+            <div class="tool-card__content">
+              <span class="tool-card__badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                Test &amp; Measurement
+              </span>
+              <h3 class="tool-card__name">TestOK</h3>
+              <p class="tool-card__subtitle">Design-Aware Test Instrument Layer</p>
+              <div class="tool-card__desc">
+                <p>An AI intelligence layer that makes bench instruments design-aware. It reads the device's datasheet, configures the instruments itself, runs the measurements, and interprets the results &mdash; closing both the setup and the analysis loop.</p>
+                <ul>
+                  <li>Reads the DUT datasheet to derive test points, limits, and stimulus</li>
+                  <li>Auto-configures bench instruments &mdash; no manual setup per device</li>
+                  <li>Runs measurements and flags anomalies against design intent</li>
+                  <li>Closed-loop console with live run streaming and reports</li>
+                  <li>Hardware-free demo: simulated bench + mock LLM, no API key needed</li>
+                </ul>
+              </div>
+              <div class="tags">
+                <span class="tag tag--neutral">Datasheet AI</span>
+                <span class="tag tag--neutral">Instrument Control</span>
+                <span class="tag tag--neutral">Flask</span>
+                <span class="tag tag--neutral">Closed-Loop</span>
+              </div>
+              <div class="error-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <span><span class="strikethrough">Manual instrument setup and blind readings</span> &rarr; AI-configured, design-checked</span>
+              </div>
+            </div>
+            <div class="tool-card__actions">
+              <a href="https://testok-w654.onrender.com" target="_blank" rel="noopener" class="btn btn--primary btn--sm">Live Demo</a>
+            </div>
+          </article>
+
+          <!-- 2. ProdSync -->
           <article class="tool-card reveal">
             <div class="tool-card__content">
               <span class="tool-card__badge">
@@ -109,7 +144,7 @@
             </div>
           </article>
 
-          <!-- 2. VoltSpark -->
+          <!-- 3. VoltSpark -->
           <article class="tool-card reveal">
             <div class="tool-card__content">
               <span class="tool-card__badge">
@@ -145,7 +180,7 @@
             </div>
           </article>
 
-          <!-- 3. PartOK -->
+          <!-- 4. PartOK -->
           <article class="tool-card reveal">
             <div class="tool-card__content">
               <span class="tool-card__badge">
@@ -181,7 +216,7 @@
             </div>
           </article>
 
-          <!-- 4. PCBok -->
+          <!-- 5. PCBok -->
           <article class="tool-card reveal">
             <div class="tool-card__content">
               <span class="tool-card__badge">
@@ -217,7 +252,7 @@
             </div>
           </article>
 
-          <!-- 5. ZeroTest -->
+          <!-- 6. ZeroTest -->
           <article class="tool-card reveal">
             <div class="tool-card__content">
               <span class="tool-card__badge">
