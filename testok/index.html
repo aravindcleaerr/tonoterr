@@ -203,14 +203,20 @@
         </p>
       </div>
 
-      <!-- Hero visual: a static screenshot of the live TestOK console
-           (testok-bench.vercel.app). Swap in a fresh capture whenever the
-           UI changes; a looped screencast could replace it later. -->
+      <!-- Hero visual: looped screencast of the live TestOK console
+           (testok-bench.vercel.app) running an evaluation -> verdict. The
+           static app-shot.png is the poster (shown while loading / fallback);
+           re-record from the live app when the UI changes. -->
       <div>
-        <img src="/testok/images/app-shot.png"
-             alt="The TestOK closed-loop console — bench instruments, the board under test, and the verdict panel"
-             class="w-full h-auto rounded-xl border border-line block"
-             style="box-shadow: 0 22px 50px -20px rgba(15,32,31,0.18), 0 4px 14px -2px rgba(15,32,31,0.06); aspect-ratio: 1672 / 941; background: var(--paper-deep);" />
+        <video
+          autoplay muted loop playsinline preload="metadata"
+          poster="/testok/images/app-shot.png"
+          aria-label="TestOK running a closed-loop evaluation: bench, verdict and diagnosis"
+          class="w-full h-auto rounded-xl border border-line block"
+          style="box-shadow: 0 22px 50px -20px rgba(15,32,31,0.18), 0 4px 14px -2px rgba(15,32,31,0.06); aspect-ratio: 1672 / 941; background: var(--paper-deep);">
+          <source src="/testok/images/hero-testok.mp4" type="video/mp4" />
+          <img src="/testok/images/app-shot.png" alt="The TestOK closed-loop console — bench instruments, the board under test, and the verdict panel" class="w-full h-auto rounded-xl" />
+        </video>
       </div>
     </div>
 
