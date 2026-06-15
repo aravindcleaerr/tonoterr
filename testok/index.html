@@ -150,6 +150,7 @@
     </a>
     <nav class="hidden md:flex items-center gap-7 text-sm muted">
       <a href="#how" class="hover:text-[color:var(--ink)]">How it works</a>
+      <a href="#walkthrough" class="hover:text-[color:var(--ink)]">Watch</a>
       <a href="#features" class="hover:text-[color:var(--ink)]">Features</a>
       <a href="#contact" class="hover:text-[color:var(--ink)]">Contact</a>
     </nav>
@@ -375,6 +376,32 @@
       Same loop, whether the bench is real instruments over VISA or the built-in
       simulator. The diagnosis quality doesn't change.
     </p>
+  </section>
+
+  <!-- ===================== WALKTHROUGH ===================== -->
+  <section id="walkthrough" class="bg-paper-deep border-y border-line">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+      <div class="max-w-3xl mb-8 sm:mb-10">
+        <div class="eyebrow mb-4">Watch it run</div>
+        <h2 class="h2 mb-5">The full loop, <em>end to end</em>.</h2>
+        <p class="serif text-base sm:text-lg/relaxed muted">
+          One real run on the HW-131 LDO board — read the context, pick the
+          board, model and test, drive the bench, catch the ripple fault, trace
+          it to the output capacitor on the schematic and the board, and export
+          the report.
+        </p>
+      </div>
+      <div class="rounded-xl overflow-hidden border border-line bg-paper"
+           style="box-shadow: 0 30px 60px -28px rgba(15,32,31,0.22), 0 4px 14px -2px rgba(15,32,31,0.06);">
+        <video controls playsinline preload="none"
+               poster="/testok/images/walkthrough-poster.jpg"
+               class="w-full h-auto block"
+               style="aspect-ratio: 1500 / 844; background: var(--paper-deep);">
+          <source src="/testok/images/walkthrough.mp4" type="video/mp4" />
+          <img src="/testok/images/walkthrough-poster.jpg" alt="TestOK full walkthrough: context, run, diagnosis, schematic and PCB fault highlight, and report" class="w-full h-auto" />
+        </video>
+      </div>
+    </div>
   </section>
 
   <!-- ===================== FEATURES ===================== -->
