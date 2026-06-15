@@ -1,0 +1,181 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Probewise — Nimbus NM-1801-EVB — Marginal ripple</title>
+<style>
+  :root { --ink:#0f201f; --muted:#5a6b66; --muted-2:#7d8a85; --line:#cad4ce;
+          --teal:#1f7a5a; --teal-dk:#0e5240; --fail:#b3473b;
+          --paper:#fbf8f1; --paper-deep:#f3efe5; }
+  * { box-sizing: border-box; }
+  body { font: 14px/1.5 Georgia, "Times New Roman", serif; color: var(--ink);
+         background: var(--paper); margin: 0; padding: 36px;
+         max-width: 920px; margin-inline: auto; }
+  h2 { font-size: 16px; margin: 22px 0 8px; border-bottom: 1px solid var(--line);
+       padding-bottom: 4px; }
+  h3 { font-size: 13px; margin: 14px 0 4px; color: var(--muted); }
+  .small { font-size: 12px; color: var(--muted); }
+  .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  .report-header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .report-header .brand { display: flex; align-items: center; gap: 14px; }
+  .report-header .brand .name {
+    font: 36px/1 Georgia, "Times New Roman", serif; font-weight: 600;
+    color: var(--ink); letter-spacing: -0.015em;
+  }
+  .report-header .brand .name em { color: var(--teal); font-style: italic;
+                                   font-weight: 400; }
+  .report-header .meta { text-align: right; }
+  .report-header .meta .eyebrow {
+    font: 11px/1 ui-sans-serif, system-ui, sans-serif; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted);
+  }
+  .report-header .meta .timestamp {
+    font: 13px/1.4 ui-sans-serif, system-ui, sans-serif; color: var(--ink);
+    margin-top: 4px;
+  }
+  .pipeline {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    margin: 18px 0 22px;
+    background: var(--paper-deep);
+    border-radius: 4px;
+  }
+  .pipeline .stage {
+    display: grid; grid-template-columns: 44px 1fr; gap: 10px;
+    align-items: center; padding: 12px 14px;
+    border-bottom: 2px solid var(--teal-dk);
+  }
+  .pipeline .stage .num {
+    font: 600 13px/1 ui-monospace, Menlo, Consolas, monospace;
+    color: var(--teal-dk);
+    background: #fff; border: 1px solid var(--line); border-radius: 4px;
+    padding: 4px 0; text-align: center;
+  }
+  .pipeline .stage .label {
+    font: 700 10.5px/1 ui-sans-serif, system-ui, sans-serif;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink);
+  }
+  .pipeline .stage .title {
+    font: 14px/1.2 Georgia, serif; color: var(--ink); margin-top: 2px;
+  }
+  table.info { border-collapse: collapse; width: 100%; margin: 10px 0; }
+  table.info td { padding: 5px 8px; border-bottom: 1px solid var(--line);
+                  font-size: 13px; }
+  table.info td:first-child { width: 140px; color: var(--muted);
+                              font-weight: 600; text-transform: uppercase;
+                              font-size: 11px; letter-spacing: 0.08em; }
+  .banner { display: flex; gap: 18px; align-items: center; padding: 14px 18px;
+            margin: 14px 0; border-radius: 6px; border: 1px solid; }
+  .banner.pass { background: #e0efe6; border-color: var(--teal); }
+  .banner.fail { background: #fbe6e1; border-color: var(--fail); }
+  .banner .verdict { font: 700 22px/1 ui-sans-serif, system-ui, sans-serif;
+                     letter-spacing: 0.04em; }
+  .banner.pass .verdict { color: var(--teal); }
+  .banner.fail .verdict { color: var(--fail); }
+  .photo { margin: 14px 0; }
+  .photo img { max-width: 100%; max-height: 320px;
+               border: 1px solid var(--line); border-radius: 4px;
+               display: block; }
+  .no-photo { font-size: 12px; color: var(--muted); }
+  table.results { border-collapse: collapse; width: 100%; margin: 8px 0;
+                  font-size: 13px; }
+  table.results th, table.results td { border-bottom: 1px solid var(--line);
+                                       padding: 6px 8px; text-align: left; }
+  table.results th { background: #eef3ee;
+                     font: 11px/1 ui-sans-serif, system-ui, sans-serif;
+                     text-transform: uppercase; letter-spacing: 0.08em;
+                     color: var(--muted); }
+  .outcome { font: 700 13px/1 ui-sans-serif, system-ui, sans-serif; }
+  .outcome.pass { color: var(--teal); }
+  .outcome.fail { color: var(--fail); }
+  pre.ctx { background: #fff; border: 1px solid var(--line); padding: 10px;
+            font-size: 11px; white-space: pre-wrap; max-height: 340px;
+            overflow: auto; }
+  .report-footer {
+    margin-top: 36px; padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font: 11px/1.5 ui-sans-serif, system-ui, sans-serif;
+    color: var(--muted); text-align: center;
+  }
+  @media print {
+    body { margin: 16mm; padding: 0; background: #fff; }
+    pre.ctx { max-height: none; overflow: visible; }
+    .report-header { page-break-after: avoid; }
+    .pipeline { page-break-after: avoid; }
+    .report-footer { position: fixed; bottom: 12mm; left: 0; right: 0; }
+  }
+</style></head><body>
+<header class="report-header">
+  <div class="brand">
+    
+<svg viewBox="0 0 40 40" width="44" height="44" aria-hidden="true">
+  <circle cx="20" cy="20" r="14" fill="none" stroke="#1f7a5a" stroke-width="1.8"/>
+  <circle cx="20" cy="20" r="6"  fill="none" stroke="#1f7a5a" stroke-width="1.8"/>
+  <line x1="28" y1="12" x2="34" y2="6" stroke="#1f7a5a" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="20" cy="20" r="2" fill="#1f7a5a"/>
+</svg>
+    <span class="name">Probe<em>wise</em></span>
+  </div>
+  <div class="meta">
+    <div class="eyebrow">Run report</div>
+    <div class="timestamp">2026-05-26 08:14 UTC</div>
+  </div>
+</header>
+<div class="pipeline">
+  <div class="stage"><span class="num">01</span>
+    <div><div class="label">Understand</div><div class="title">Read the context</div></div></div>
+  <div class="stage"><span class="num">02</span>
+    <div><div class="label">Measure</div><div class="title">Drive the bench</div></div></div>
+  <div class="stage"><span class="num">03</span>
+    <div><div class="label">Infer</div><div class="title">Diagnose the result</div></div></div>
+</div>
+<table class="info">
+  <tr><td>Board</td><td>Nimbus NM-1801-EVB</td></tr>
+  <tr><td>Part number</td><td>NM-1801</td></tr>
+  <tr><td>Vendor</td><td>Nimbus Power</td></tr>
+  <tr><td>Package</td><td>QFN-12</td></tr>
+  <tr><td>Domain</td><td>Power · Buck</td></tr>
+  <tr><td>Scenario</td><td>Marginal ripple</td></tr>
+  <tr><td>Backend</td><td>mock</td></tr>
+  <tr><td>Bench</td><td>Simulator</td></tr>
+</table>
+<div class="banner fail">
+  <span class="verdict">OVERALL: FAIL</span>
+  <span>1 of 3 checks failed.</span>
+</div>
+<div class="photo"><img src="data:image/png;base64,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" alt="Board photo"/></div>
+<h2>Measurements</h2>
+<table class="results">
+  <thead><tr><th>TP</th><th>Check</th><th>Limit</th><th>Measured</th><th>Outcome</th></tr></thead>
+  <tbody><tr>
+      <td class="mono">tp1</td>
+      <td>Output voltage (500 mA load)</td>
+      <td class="mono">—</td>
+      <td class="mono">1.7996 V</td>
+      <td class="outcome pass">PASS</td>
+    </tr><tr>
+      <td class="mono">tp2</td>
+      <td>Output voltage (no load)</td>
+      <td class="mono">—</td>
+      <td class="mono">1.8027 V</td>
+      <td class="outcome pass">PASS</td>
+    </tr><tr>
+      <td class="mono">tp3</td>
+      <td>Output ripple (500 mA load)</td>
+      <td class="mono">—</td>
+      <td class="mono">0.0281 V</td>
+      <td class="outcome fail">FAIL</td>
+    </tr></tbody>
+</table>
+<h2>Diagnosis</h2>
+  <p><b>High output ripple, DC regulation clean — output capacitor.</b></p>
+  <p>Output ripple measured <b>[TP3: 0.028 V]</b> pp against a 12 mV limit (2.3× over spec).</p><p>DC output voltage is within spec at every load point <b>[TP1: 1.800 V]</b>, <b>[TP2: 1.803 V]</b>, so the pass device, the reference and the feedback loop are healthy. A ripple-only failure of this magnitude points to the output capacitor — most likely an under-valued or high-ESR COUT, or poor placement near the regulator.</p>
+  <table class="info">
+    <tr><td>Root cause</td><td>Output capacitor — high ESR or under-valued</td></tr>
+    <tr><td>Next step</td><td>Verify the COUT value and ESR against the datasheet's stability requirements, then re-test.</td></tr>
+    <tr><td>Confidence</td><td>86%</td></tr>
+  </table>
+<h2>Appendix A — SCPI log</h2><h3>tp1 — Output voltage (500 mA load)</h3><div class="mono small">PSU   →  SOUR:VOLT 5.000</div><div class="mono small">PSU   →  OUTP ON</div><div class="mono small">LOAD  →  SOUR:CURR 0.500</div><div class="mono small">LOAD  →  INP ON</div><div class="mono small">DMM   →  CONF:VOLT:DC 10</div><div class="mono small">DMM   →  MEAS:VOLT:DC?</div><div class="mono small">DMM   ⇐  1.7996</div><h3>tp2 — Output voltage (no load)</h3><div class="mono small">PSU   →  SOUR:VOLT 5.000</div><div class="mono small">PSU   →  OUTP ON</div><div class="mono small">LOAD  →  SOUR:CURR 0.000</div><div class="mono small">LOAD  →  INP ON</div><div class="mono small">DMM   →  CONF:VOLT:DC 10</div><div class="mono small">DMM   →  MEAS:VOLT:DC?</div><div class="mono small">DMM   ⇐  1.8027</div><h3>tp3 — Output ripple (500 mA load)</h3><div class="mono small">PSU   →  SOUR:VOLT 5.000</div><div class="mono small">PSU   →  OUTP ON</div><div class="mono small">LOAD  →  SOUR:CURR 0.500</div><div class="mono small">LOAD  →  INP ON</div><div class="mono small">SCOPE →  :CHAN1:COUP AC</div><div class="mono small">SCOPE →  :CHAN1:SCAL 0.02</div><div class="mono small">SCOPE →  :TIM:SCAL 1e-3</div><div class="mono small">SCOPE →  :MEAS:VPP? CHAN1</div><div class="mono small">SCOPE ⇐  0.02809</div>
+
+<footer class="report-footer">Probewise · sample-pol-1v8 · marginal_ripple · 2026-05-26 08:14 UTC</footer>
+</body></html>

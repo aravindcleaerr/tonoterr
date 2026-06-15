@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TestOK — From datasheet to diagnosis</title>
+  <meta name="description" content="TestOK reads your board's design, drives the bench instruments, and tells you what's wrong — closing the loop between design intent and bench reality." />
+
+  <!-- Open Graph / social -->
+  <meta property="og:title" content="TestOK — From datasheet to diagnosis" />
+  <meta property="og:description" content="An AI design-aware layer on top of your bench. Datasheet in, diagnosis out." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://tonoterr.vercel.app/testok" />
+  <meta property="og:image" content="https://tonoterr.vercel.app/testok/images/og-logo.webp" />
+
+  <!-- Tailwind via CDN (Play CDN — zero-config, fine for a single-page site) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Brand typography — TestOK's app uses Georgia / Helvetica fallbacks
+       so this keeps the marketing site visually consistent with the product. -->
+  <style>
+    :root {
+      --paper:#fbf8f1; --paper-deep:#f3efe5;
+      --ink:#0f201f; --muted:#5a6b66; --line:#cad4ce;
+      --teal:#1f7a5a; --teal-dk:#0e5240; --teal-soft:#dde9e1;
+      --fail:#b3473b; --fail-soft:#fbe6e1;
+    }
+    html, body { background: var(--paper); color: var(--ink); }
+    .serif { font-family: Georgia, "Times New Roman", serif; }
+    .sans  { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .mono  { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+    .ink     { color: var(--ink); }
+    .muted   { color: var(--muted); }
+    .teal    { color: var(--teal); }
+    .teal-dk { color: var(--teal-dk); }
+    .fail    { color: var(--fail); }
+    .bg-paper  { background: var(--paper); }
+    .bg-paper-deep { background: var(--paper-deep); }
+    .bg-teal-soft { background: var(--teal-soft); }
+    .bg-fail-soft { background: var(--fail-soft); }
+    .border-line { border-color: var(--line); }
+    .border-teal { border-color: var(--teal); }
+    .border-fail { border-color: var(--fail); }
+
+    .h1 { font-family: Georgia, serif; font-weight: 600; font-size: clamp(40px, 6.4vw, 72px);
+          line-height: 1.04; letter-spacing: -0.02em; }
+    .h1 em { color: var(--teal); font-style: italic; font-weight: 400; }
+    .h2 { font-family: Georgia, serif; font-weight: 600; font-size: clamp(28px, 3.8vw, 40px);
+          line-height: 1.15; letter-spacing: -0.01em; }
+    .h2 em { color: var(--teal); font-style: italic; font-weight: 400; }
+    .eyebrow { font: 700 11px/1 ui-sans-serif, system-ui, sans-serif;
+               text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); }
+
+    /* Primary CTA — matches the app's verdict palette */
+    .btn-primary {
+      background: var(--ink); color: var(--paper); border: 1px solid var(--ink);
+      padding: 14px 22px; border-radius: 999px;
+      font: 600 14px/1 ui-sans-serif, system-ui, sans-serif;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: background-color .15s, transform .05s;
+    }
+    .btn-primary:hover { background: var(--teal-dk); border-color: var(--teal-dk); }
+    .btn-primary:active { transform: translateY(1px); }
+    .btn-ghost {
+      background: transparent; color: var(--ink); border: 1px solid var(--line);
+      padding: 14px 22px; border-radius: 999px;
+      font: 600 14px/1 ui-sans-serif, system-ui, sans-serif;
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    .btn-ghost:hover { border-color: var(--ink); background: var(--paper-deep); }
+
+    /* Stage chip used in the pipeline strip */
+    .stage { background: var(--paper-deep); border: 1px solid var(--line);
+             border-bottom: 2px solid var(--teal-dk); padding: 16px 18px;
+             border-radius: 6px; }
+    .stage .n { font: 700 13px/1 ui-monospace, Menlo, Consolas, monospace;
+                color: var(--teal-dk); background: #fff; border: 1px solid var(--line);
+                width: 30px; height: 22px; border-radius: 4px;
+                display: inline-flex; align-items: center; justify-content: center; }
+
+    /* Verdict card preview — mimic the app's centerpiece */
+    .verdict-card {
+      background: #fff; border: 1px solid var(--line); border-radius: 10px;
+      box-shadow: 0 22px 50px -20px rgba(15,32,31,0.18),
+                  0 4px 14px -2px rgba(15,32,31,0.06);
+      overflow: hidden;
+    }
+    .verdict-banner {
+      background: var(--fail-soft); color: var(--fail);
+      padding: 14px 18px;
+      display: flex; align-items: center; gap: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .verdict-banner .label {
+      font: 700 11px/1 ui-sans-serif, system-ui, sans-serif;
+      text-transform: uppercase; letter-spacing: 0.18em;
+      color: var(--muted);
+    }
+    .verdict-banner .outcome {
+      font: 700 24px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: 0.04em;
+    }
+
+    .checkrow { display: flex; align-items: center; gap: 12px;
+                padding: 10px 18px; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .checkrow:last-child { border-bottom: 0; }
+    .check-tag { font: 700 10px/1 ui-monospace, Menlo, Consolas, monospace;
+                 padding: 3px 6px; border-radius: 4px; }
+    .check-tag.pass { background: var(--teal-soft); color: var(--teal-dk); }
+    .check-tag.fail { background: var(--fail-soft); color: var(--fail); }
+
+    .citation { background: var(--teal-soft); color: var(--teal-dk);
+                font: 600 12px/1 ui-monospace, Menlo, Consolas, monospace;
+                padding: 2px 6px; border-radius: 4px; }
+
+    /* Logo mark — same SVG as the app */
+    .logo-svg { color: var(--teal); }
+
+    /* Responsive tweaks not easily expressed via Tailwind utilities */
+    @media (max-width: 640px) {
+      .h1 { font-size: 38px; line-height: 1.08; }
+      .h2 { font-size: 24px; }
+      .verdict-banner { padding: 12px 14px; gap: 10px; }
+      .verdict-banner .outcome { font-size: 20px; }
+      .verdict-banner > div:last-child { max-width: 160px !important; font-size: 12px; }
+      .checkrow { padding: 9px 14px; gap: 10px; }
+      .stage { padding: 14px 16px; }
+      .btn-primary, .btn-ghost { padding: 12px 18px; font-size: 13px; }
+      /* email-as-CTA can be longer than the viewport on tiny screens */
+      a[href^="mailto:"].btn-primary { font-size: 12.5px; padding: 12px 16px; word-break: break-all; }
+    }
+  </style>
+</head>
+<body class="sans antialiased">
+
+  <!-- ===================== TOP NAV ===================== -->
+  <header class="max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-8 flex items-center justify-between gap-3">
+    <a href="#top" class="flex items-center gap-3 min-w-0">
+      <svg class="logo-svg shrink-0" viewBox="0 0 40 40" width="30" height="30" aria-hidden="true">
+        <circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <circle cx="20" cy="20" r="6"  fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <line x1="28" y1="12" x2="34" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="2" fill="currentColor"/>
+      </svg>
+      <span class="serif text-xl sm:text-2xl font-semibold">Test<em class="teal italic font-normal">OK</em></span>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm muted">
+      <a href="#how" class="hover:text-[color:var(--ink)]">How it works</a>
+      <a href="#features" class="hover:text-[color:var(--ink)]">Features</a>
+      <a href="#contact" class="hover:text-[color:var(--ink)]">Contact</a>
+    </nav>
+    <a href="https://testok-bench.vercel.app" class="btn-primary text-xs sm:text-sm shrink-0"
+       style="padding:9px 14px">
+      <span class="hidden sm:inline">Try the demo&nbsp;&nbsp;→</span>
+      <span class="sm:hidden">Demo →</span>
+    </a>
+  </header>
+
+  <!-- ===================== BRAND BANNER ===================== -->
+  <!-- Full-width AI illustration sets the mood before the hero; visitors
+       see the atmospheric scene first, then drop into the concrete pitch
+       + screencast below. Cropped (object-fit: cover) so the banner stays
+       short and doesn't push the hero copy below the fold. -->
+  <section class="max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-10">
+    <div class="rounded-2xl overflow-hidden border border-line"
+         style="box-shadow: 0 30px 60px -28px rgba(15,32,31,0.22), 0 4px 14px -2px rgba(15,32,31,0.06);">
+      <img src="images/hero-bench.webp"
+           alt="A bench with a printed circuit board being probed by an oscilloscope, with floating UI cards showing measurement values"
+           fetchpriority="high"
+           class="w-full block"
+           style="height: clamp(180px, 32vw, 420px); object-fit: cover; object-position: center;" />
+    </div>
+  </section>
+
+  <!-- ===================== HERO ===================== -->
+  <section id="top" class="max-w-6xl mx-auto px-5 sm:px-8 pt-10 sm:pt-16 pb-14 sm:pb-20">
+    <div class="grid grid-cols-1 md:grid-cols-[1.05fr_1fr] gap-10 md:gap-14 items-center">
+      <div>
+        <div class="eyebrow mb-4 sm:mb-5">An AI design-aware layer for the bench</div>
+        <h1 class="h1 mb-5 sm:mb-6">
+          From <em>datasheet</em><br/>to <em>diagnosis</em>.
+        </h1>
+        <p class="serif text-lg sm:text-xl/relaxed muted mb-7 sm:mb-9 max-w-xl">
+          TestOK reads your board's design documents, drives the bench
+          instruments, and tells you exactly what's wrong — closing the loop
+          between design intent and bench reality.
+        </p>
+        <div class="flex flex-wrap items-center gap-3">
+          <a href="https://testok-bench.vercel.app" class="btn-primary">
+            Try the live demo
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="#how" class="btn-ghost">See how it works</a>
+        </div>
+        <p class="mt-5 sm:mt-6 mono text-xs muted">
+          testok-bench.vercel.app · no sign-in needed · free
+        </p>
+      </div>
+
+      <!-- Hero visual: a static screenshot of the live TestOK console
+           (testok-bench.vercel.app). Swap in a fresh capture whenever the
+           UI changes; a looped screencast could replace it later. -->
+      <div>
+        <img src="images/app-shot.png"
+             alt="The TestOK closed-loop console — bench instruments, the board under test, and the verdict panel"
+             class="w-full h-auto rounded-xl border border-line block"
+             style="box-shadow: 0 22px 50px -20px rgba(15,32,31,0.18), 0 4px 14px -2px rgba(15,32,31,0.06); aspect-ratio: 1672 / 941; background: var(--paper-deep);" />
+      </div>
+    </div>
+
+    <!-- Verdict-card preview — the actual product output, shown below the hero
+         so visitors who scroll past the atmospheric image see something concrete. -->
+    <div class="mt-14 sm:mt-20 grid md:grid-cols-[1fr_1.3fr] gap-8 md:gap-12 items-center">
+      <div>
+        <div class="eyebrow mb-3">A typical run</div>
+        <h2 class="h2 mb-4">Pass, fail, and <em>why</em> — in one card.</h2>
+        <p class="serif text-base sm:text-lg/relaxed muted">
+          Every run produces a closed-loop verdict that cites the actual readings.
+          No black-box scores; every claim points back at a measurement you can
+          re-check yourself.
+        </p>
+      </div>
+      <div class="verdict-card serif">
+        <div class="verdict-banner">
+          <div class="min-w-0">
+            <div class="label">Closed-loop verdict</div>
+            <div class="outcome">FAIL</div>
+          </div>
+          <div class="text-sm leading-snug ml-auto max-w-[200px] sm:max-w-[220px] text-right">
+            1 of 3 checks failed — output ripple above 15 mV limit.
+          </div>
+        </div>
+        <div class="checkrow">
+          <span class="check-tag pass">PASS</span>
+          <div class="flex-1">
+            <div class="text-[14px]">Output voltage <span class="muted">(500 mA load)</span></div>
+            <div class="mono text-xs muted">3.299 V · target 3.300 V ± 49 mV</div>
+          </div>
+        </div>
+        <div class="checkrow">
+          <span class="check-tag pass">PASS</span>
+          <div class="flex-1">
+            <div class="text-[14px]">Output voltage <span class="muted">(no load)</span></div>
+            <div class="mono text-xs muted">3.302 V · target 3.300 V ± 49 mV</div>
+          </div>
+        </div>
+        <div class="checkrow">
+          <span class="check-tag fail">FAIL</span>
+          <div class="flex-1">
+            <div class="text-[14px]">Output ripple <span class="muted">(500 mA load)</span></div>
+            <div class="mono text-xs fail">48.09 mV · limit ≤ 15 mV</div>
+          </div>
+        </div>
+        <div class="p-5 pt-4 text-[15px]">
+          <div class="eyebrow mb-2">Diagnosis</div>
+          <p class="mb-3">
+            <strong>High output ripple, DC regulation clean — output capacitor.</strong>
+          </p>
+          <p class="muted leading-relaxed">
+            Output ripple measured <span class="citation">TP3: 48.09 mV</span> against a 15 mV limit
+            (3.2× over spec). DC output voltage is within spec at every load point
+            (<span class="citation">TP1: 3.299 V</span>, <span class="citation">TP2: 3.302 V</span>),
+            so the pass device, the reference and the feedback loop are healthy. A ripple-only
+            failure of this magnitude points to the output capacitor — most likely an
+            under-valued or high-ESR COUT.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROBLEM ===================== -->
+  <section class="bg-paper-deep border-y border-line">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
+      <div class="grid md:grid-cols-[1fr_1.1fr] gap-10 md:gap-12 items-center">
+        <div>
+          <div class="eyebrow mb-4">The problem</div>
+          <h2 class="h2 mb-5 sm:mb-6">
+            The bench has no idea what your board is <em>supposed</em> to do.
+          </h2>
+          <p class="serif text-base sm:text-lg/relaxed muted mb-4">
+            Bring-up is the slowest part of hardware. Engineers spend hours probing
+            rails, cross-referencing the datasheet on one monitor and the
+            oscilloscope on another, writing throwaway test scripts, and second-guessing
+            marginal readings. The instruments capture data; they don't understand the
+            design.
+          </p>
+          <p class="serif text-base sm:text-lg/relaxed muted">
+            Bench bring-up should take an hour. It takes a week.
+          </p>
+        </div>
+        <div>
+          <img src="images/before-after.webp"
+               alt="Left: an engineer hunched over a cluttered workbench, hand-writing notes. Right: the same engineer relaxed in front of a clean dashboard showing a checkmark."
+               loading="lazy"
+               class="w-full h-auto rounded-xl border border-line"
+               style="box-shadow: 0 18px 40px -18px rgba(15,32,31,0.18);" />
+          <p class="mt-3 text-center text-xs muted serif italic">Before TestOK · After TestOK</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section id="how" class="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+    <div class="max-w-3xl mb-8 sm:mb-10">
+      <div class="eyebrow mb-4">How it works</div>
+      <h2 class="h2 mb-5">Three stages, one closed loop.</h2>
+      <p class="serif text-base sm:text-lg/relaxed muted">
+        Drop in a datasheet (or pick from the library). TestOK understands the
+        spec, drives the instruments, and reasons about the result — citing the
+        actual readings so the diagnosis is auditable.
+      </p>
+    </div>
+
+    <!-- Triptych illustration of the three stages -->
+    <div class="mb-10 sm:mb-12">
+      <img src="images/triptych.webp"
+           alt="Three-panel illustration: a datasheet feeding a test plan, then bench instruments connected to a PCB, then a verdict card with a checkmark."
+           loading="lazy"
+           class="w-full h-auto rounded-lg border border-line"
+           style="box-shadow: 0 14px 32px -16px rgba(15,32,31,0.14);" />
+    </div>
+
+    <!-- Pipeline strip, on-brand -->
+    <div class="grid sm:grid-cols-3 gap-4 mb-14">
+      <div class="stage">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="n">01</span>
+          <span class="eyebrow">Understand</span>
+        </div>
+        <div class="serif text-lg ink mb-1">Read the context</div>
+        <p class="muted text-sm leading-relaxed">
+          PDF, Excel or markdown — the LLM extracts the test plan, the limits
+          and the instruments each check needs.
+        </p>
+      </div>
+      <div class="stage">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="n">02</span>
+          <span class="eyebrow">Measure</span>
+        </div>
+        <div class="serif text-lg ink mb-1">Drive the bench</div>
+        <p class="muted text-sm leading-relaxed">
+          PSU, electronic load, DMM, scope, spectrum analyser — over VISA, in
+          the simulator, or any mix. Every SCPI exchange is logged.
+        </p>
+      </div>
+      <div class="stage">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="n">03</span>
+          <span class="eyebrow">Infer</span>
+        </div>
+        <div class="serif text-lg ink mb-1">Diagnose the result</div>
+        <p class="muted text-sm leading-relaxed">
+          Pass / fail per check, plus a structured diagnosis that cites the
+          actual readings — and tells you the most likely root cause and next step.
+        </p>
+      </div>
+    </div>
+
+    <p class="serif text-base muted max-w-2xl">
+      Same loop, whether the bench is real instruments over VISA or the built-in
+      simulator. The diagnosis quality doesn't change.
+    </p>
+  </section>
+
+  <!-- ===================== FEATURES ===================== -->
+  <section id="features" class="bg-paper-deep border-y border-line">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+      <div class="max-w-3xl mb-10 sm:mb-12">
+        <div class="eyebrow mb-4">What you get</div>
+        <h2 class="h2 mb-5">A bench that understands the design.</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5 sm:gap-6">
+        <div class="bg-paper border border-line rounded-lg p-6 sm:p-7">
+          <div class="serif text-xl mb-2 ink">Datasheets in, test plans out</div>
+          <p class="muted leading-relaxed">
+            Upload the datasheet (PDF / Excel / CSV / Markdown). TestOK
+            extracts the electrical-characteristics table and turns each row
+            into an executable check — with limits, conditions, and which
+            instrument it needs.
+          </p>
+        </div>
+        <div class="bg-paper border border-line rounded-lg p-6 sm:p-7">
+          <div class="serif text-xl mb-2 ink">Real bench over VISA</div>
+          <p class="muted leading-relaxed">
+            Drive real Keysight, Rigol or generic SCPI instruments through the
+            same UI. No new framework to learn — the test plan you saw
+            simulated runs unchanged on the live bench.
+          </p>
+        </div>
+        <div class="bg-paper border border-line rounded-lg p-6 sm:p-7">
+          <div class="serif text-xl mb-2 ink">Cited diagnoses, not vibes</div>
+          <p class="muted leading-relaxed">
+            Every diagnosis paragraph cites the actual readings inline
+            (<span class="citation">TP1: 4.987 V</span>). You see why the model
+            said what it said. No black-box conclusions.
+          </p>
+        </div>
+        <div class="bg-paper border border-line rounded-lg p-6 sm:p-7">
+          <div class="serif text-xl mb-2 ink">Audit-ready reports</div>
+          <p class="muted leading-relaxed mb-3">
+            Export any run as a branded PDF, self-contained HTML, or JSON.
+            Optional SCPI log + source-document appendix make the report
+            self-contained for QA / compliance.
+          </p>
+          <p class="text-xs muted">
+            See an example:
+            <a href="examples/sample-report.pdf"
+               class="font-semibold underline" style="color: var(--teal-deep);"
+               target="_blank" rel="noopener">PDF</a>
+            ·
+            <a href="examples/sample-report.html"
+               class="font-semibold underline" style="color: var(--teal-deep);"
+               target="_blank" rel="noopener">HTML</a>
+          </p>
+        </div>
+        <div class="bg-paper border border-line rounded-lg p-6 sm:p-7">
+          <div class="serif text-xl mb-2 ink">Bring your own boards</div>
+          <p class="muted leading-relaxed">
+            Upload a custom board's docs in one dialog — datasheet + BOM +
+            test procedure + a real photo of the PCB. The bench artwork
+            shows the photo so the instrument probes appear to land on the
+            actual board.
+          </p>
+        </div>
+        <div class="bg-paper border border-line rounded-lg p-6 sm:p-7">
+          <div class="serif text-xl mb-2 ink">Backend of your choice</div>
+          <p class="muted leading-relaxed">
+            Rule-based mock (offline, deterministic), local model via Ollama
+            (on-prem, no cloud), or Anthropic Claude (the highest-quality
+            free-form reasoning). Swap with one click.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section id="contact" class="bg-paper-deep border-t border-line">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 py-14 sm:py-20 text-center">
+      <div class="eyebrow mb-4">Get in touch</div>
+      <h2 class="h2 mb-5 sm:mb-6 mx-auto max-w-2xl">
+        Building something on a bench? <em>Let's talk.</em>
+      </h2>
+      <p class="serif text-base sm:text-lg muted mb-8 sm:mb-9 max-w-xl mx-auto">
+        Whether you'd like to pilot TestOK on a real board, partner on an
+        instrument integration, or invest — the inbox is open.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="mailto:aravind.cleaerr@gmail.com?subject=TestOK" class="btn-primary"
+           style="max-width: 100%; overflow: hidden; text-overflow: ellipsis;">
+          aravind.cleaerr@gmail.com
+        </a>
+        <a href="https://testok-bench.vercel.app" class="btn-ghost">
+          Open the live demo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="max-w-6xl mx-auto px-5 sm:px-8 py-8 sm:py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm muted">
+    <div class="flex items-center gap-3">
+      <svg class="logo-svg" viewBox="0 0 40 40" width="22" height="22" aria-hidden="true">
+        <circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <circle cx="20" cy="20" r="6"  fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <line x1="28" y1="12" x2="34" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="2" fill="currentColor"/>
+      </svg>
+      <span class="serif">Test<em class="teal italic">OK</em></span>
+      <span>·</span>
+      <span>An AI layer for your bench</span>
+    </div>
+    <div class="flex items-center gap-5">
+      <a href="https://testok-bench.vercel.app" class="hover:text-[color:var(--ink)]">Live demo</a>
+      <a href="/" class="hover:text-[color:var(--ink)]">toN0tErr</a>
+      <a href="mailto:aravind.cleaerr@gmail.com" class="hover:text-[color:var(--ink)]">Contact</a>
+    </div>
+  </footer>
+
+</body>
+</html>
