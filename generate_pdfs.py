@@ -324,7 +324,7 @@ TOOLS = [
         "tags": ["Datasheet AI", "Instrument Control", "Python + Flask", "Closed-Loop"],
         "error_from": "Manual instrument setup and blind readings",
         "error_to": "AI-configured, design-checked",
-        "url": "https://testok-w654.onrender.com",
+        "url": "https://testok-bench.vercel.app",
     },
     {
         "id": "prodsync",
