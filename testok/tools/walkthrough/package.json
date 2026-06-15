@@ -1,0 +1,12 @@
+{
+  "name": "testok-walkthrough-recorder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Re-records the /testok full-walkthrough screencast by driving the live TestOK app.",
+  "scripts": {
+    "build": "./build.sh"
+  },
+  "dependencies": {
+    "puppeteer-core": "^24.0.0"
+  }
+}
