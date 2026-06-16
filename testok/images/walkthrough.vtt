@@ -1,0 +1,34 @@
+WEBVTT
+
+00:01.000 --> 00:04.946
+TestOK is an AI layer that sits on top of your bench instruments.
+
+00:05.000 --> 00:10.495
+It first reads the board's design — datasheet, BOM, test procedure and schematic.
+
+00:10.495 --> 00:14.615
+You simply select the board, the model, and the test you wish to run.
+
+00:15.000 --> 00:21.355
+On Run, it drives the power supply, load, multimeter and scope itself — logging every SCPI command on the wire.
+
+00:21.355 --> 00:24.929
+Within seconds, you get a verdict: this board has failed.
+
+00:25.000 --> 00:28.226
+And here is the most important part — the diagnosis.
+
+00:30.000 --> 00:35.112
+High output ripple, but clean DC regulation — the likely cause is the output capacitor.
+
+00:35.112 --> 00:38.524
+TestOK then points to the exact component on the schematic…
+
+00:39.000 --> 00:40.937
+…and on the actual board.
+
+00:43.000 --> 00:46.028
+Finally, it exports a complete, audit-ready report…
+
+00:48.000 --> 00:52.155
+…with the verdict, the measurements and the reasoning, all in one place.
