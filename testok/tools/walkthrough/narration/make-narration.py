@@ -2,12 +2,15 @@
 """
 Assemble the narrated + subtitled /testok walkthrough.
 
-Pipeline:
+Pipeline (default = soft captions, matching what's deployed on /testok):
   per-line audio (TTS or your own recordings)
     -> placed on the beat timeline
-    -> narration.wav + subtitles.srt
-    -> burned-in subtitles + muxed audio over ../../images/walkthrough.mp4
-    -> walkthrough-narrated.mp4   (copy that over ../../images/walkthrough.mp4 to ship)
+    -> narration.wav + subtitles.srt + subtitles.vtt
+    -> audio muxed over the CLEAN walkthrough video (no baked-in text)
+    -> walkthrough-narrated.mp4   (copy over ../../../images/walkthrough.mp4)
+       subtitles.vtt              (copy over ../../../images/walkthrough.vtt)
+  The .vtt rides along as a soft <track> on /testok. Pass --burn for a
+  standalone copy with captions baked in (e.g. WhatsApp / download).
 
 Re-voicing (the whole point of keeping this):
   - Record/obtain one clip per LINE below, named line_00.wav .. line_10.wav,
@@ -28,6 +31,7 @@ AUDIO_DIR = os.path.join(HERE, "audio")
 VIDEO = os.path.normpath(os.path.join(HERE, "..", "..", "..", "images", "walkthrough.mp4"))
 OUT   = os.path.join(HERE, "walkthrough-narrated.mp4")
 SRT   = os.path.join(HERE, "subtitles.srt")
+VTT   = os.path.join(HERE, "subtitles.vtt")
 WAV   = os.path.join(HERE, "narration.wav")
 
 # Beat start (seconds) each narration line should land on — the timing contract.
@@ -131,22 +135,39 @@ def main():
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *inp,
                     "-filter_complex", fc, "-map", "[out]", WAV], check=True)
 
-    # subtitles.srt — each line shows for its own duration (+0.3s linger)
+    # captions: subtitles.srt + subtitles.vtt (each line shows for its own
+    # duration, +0.3s linger). The .vtt is the soft track used on /testok.
+    cues = []
+    for i in range(len(BEATS)):
+        end = starts[i] + durs[i] + 0.3
+        if i < len(BEATS) - 1:
+            end = min(end, starts[i + 1])
+        cues.append((starts[i], end, SUBS[i]))
     with open(SRT, "w") as fo:
-        for i in range(len(BEATS)):
-            end = starts[i] + durs[i] + 0.3
-            if i < len(BEATS) - 1:
-                end = min(end, starts[i+1])
-            fo.write(f"{i+1}\n{srt_ts(starts[i])} --> {srt_ts(end)}\n{SUBS[i]}\n\n")
+        for i, (s, e, txt) in enumerate(cues):
+            fo.write(f"{i+1}\n{srt_ts(s)} --> {srt_ts(e)}\n{txt}\n\n")
+    with open(VTT, "w") as fo:
+        fo.write("WEBVTT\n\n")
+        for s, e, txt in cues:
+            fo.write(f"{srt_ts(s).replace(',', '.')} --> {srt_ts(e).replace(',', '.')}\n{txt}\n\n")
 
-    # burn subtitles + mux narration audio over the (silent) walkthrough video
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", VIDEO, "-i", WAV,
-                    "-vf", f"subtitles={SRT}:force_style='{SUB_STYLE}'",
-                    "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "21",
-                    "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
-                    "-movflags", "+faststart", OUT], check=True)
+    if "--burn" in sys.argv:
+        # standalone copy with captions baked in (e.g. WhatsApp / download)
+        burned = OUT.replace(".mp4", "-burned.mp4")
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", VIDEO, "-i", WAV,
+                        "-vf", f"subtitles={SRT}:force_style='{SUB_STYLE}'",
+                        "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "21",
+                        "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
+                        "-movflags", "+faststart", burned], check=True)
+        print(f"  -> {burned}   (captions baked in, for standalone sharing)")
+    else:
+        # default: clean video + audio; captions ride along as the .vtt soft track
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", VIDEO, "-i", WAV,
+                        "-map", "0:v", "-map", "1:a", "-c:v", "copy",
+                        "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", OUT], check=True)
+        print(f"  -> {OUT}   (clean; copy over ../../../images/walkthrough.mp4)")
+        print(f"  -> {VTT}   (copy over ../../../images/walkthrough.vtt)")
     print(f"  -> {SRT}")
-    print(f"  -> {OUT}   (copy over ../../../images/walkthrough.mp4 to ship)")
 
 
 if __name__ == "__main__":
