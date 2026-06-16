@@ -79,10 +79,54 @@ const closeModal = (page) => page.evaluate(() => {
   await click(page, '.scenario-trigger');                            await sleep(900);
   await clickText(page, '.scenario-option-name', 'Marginal ripple'); await sleep(1100);
 
-  // 5/6 — run + diagnosis
+  // 5/6 — run, then make the DIAGNOSIS the hero: highlight it, then zoom in.
+  // (Run also auto-expands the SCPI rail — the new collapse behaviour on show.)
   await clickText(page, 'button', 'Run evaluation');
   await page.waitForFunction(() => !document.body.innerText.includes('Waiting on the loop'), { timeout: 20000 }).catch(() => {});
-  await sleep(3800);
+  await page.waitForFunction(() => { const d = document.querySelector('.diagnosis-strip-body'); return d && !d.innerText.includes('Diagnosis pending'); }, { timeout: 20000 }).catch(() => {});
+  await sleep(1800);                                   // take in the result (SCPI rail auto-expanded on run)
+
+  // collapse the SCPI rail -> the diagnosis reflows to full width
+  await page.evaluate(() => { const x = document.querySelector('.panel.right .panel-close'); if (x) x.click(); });
+  await sleep(1400);
+
+  // (a) highlight the diagnosis — the product's headline output. Inset border
+  //     + tint so the center column's overflow:hidden can't clip it.
+  await page.evaluate(() => {
+    const el = document.querySelector('.diagnosis-strip');
+    if (!el) return;
+    el.style.transition = 'background .4s ease, box-shadow .4s ease';
+    el.style.borderRadius = '8px';
+    el.style.background = 'rgba(31,122,90,0.06)';
+    el.style.boxShadow = 'inset 0 0 0 2px #1f7a5a, 0 0 44px rgba(31,122,90,0.40)';
+  });
+  await sleep(1700);
+
+  // (b) then zoom in on the diagnosis: a focused overlay of the enlarged
+  //     diagnosis. page.screencast reliably captures fixed overlays (like the
+  //     schematic / PCB modals) — unlike a late CSS transform on #root, which
+  //     it silently drops mid-recording.
+  await page.evaluate(() => {
+    const src = document.querySelector('.diagnosis-strip');
+    if (!src) return;
+    const ov = document.createElement('div');
+    ov.id = '__diagZoom';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(15,32,31,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .5s ease;';
+    const card = document.createElement('div');
+    card.style.cssText = 'background:#fbf8f1;border:2px solid #1f7a5a;border-radius:14px;box-shadow:0 40px 100px -20px rgba(0,0,0,0.5);padding:30px 40px;width:min(72vw,1040px);max-height:80vh;overflow:hidden;font-size:1.3em;';
+    card.innerHTML = src.innerHTML;
+    card.querySelectorAll('input,textarea,button').forEach((e) => e.remove());
+    ov.appendChild(card); document.body.appendChild(ov);
+    requestAnimationFrame(() => { ov.style.opacity = '1'; });
+  });
+  await sleep(3600);                                   // hold on the focused diagnosis
+
+  // dismiss overlay + clear highlight, continue to schematic/PCB
+  await page.evaluate(() => {
+    const ov = document.getElementById('__diagZoom'); if (ov) { ov.style.opacity = '0'; setTimeout(() => ov.remove(), 500); }
+    const el = document.querySelector('.diagnosis-strip'); if (el) { el.style.boxShadow = 'none'; el.style.background = ''; }
+  });
+  await sleep(900);
 
   // 7 — schematic fault highlight
   await clickText(page, 'button', 'Show on schematic');              await sleep(2800);
