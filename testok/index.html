@@ -133,6 +133,16 @@
       /* email-as-CTA can be longer than the viewport on tiny screens */
       a[href^="mailto:"].btn-primary { font-size: 12.5px; padding: 12px 16px; word-break: break-all; }
     }
+
+    /* Walkthrough captions — subtle, translucent, on-brand (vs the stark
+       default white-on-solid-black). */
+    video::cue {
+      background-color: rgba(15, 32, 31, 0.55);
+      color: #f3efe5;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 84%;
+      line-height: 1.35;
+    }
   </style>
 </head>
 <body class="sans antialiased">
