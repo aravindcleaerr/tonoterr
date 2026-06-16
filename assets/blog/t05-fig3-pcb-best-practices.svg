@@ -13,19 +13,19 @@
 
   <!-- ============ CENTRAL PCB BOARD ============ -->
   <rect x="220" y="55" width="360" height="280" rx="8" fill="#1a8a4a" opacity="0.12" stroke="#1a365d" stroke-width="2"/>
-  <text x="400" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1a365d">4-LAYER PCB (Top View)</text>
+  <text x="400" y="77" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1a365d">4-LAYER PCB (Top View)</text>
 
   <!-- Layer stackup label in PCB -->
-  <rect x="235" y="85" width="140" height="60" rx="4" fill="white" stroke="#2b6cb0" stroke-width="1"/>
-  <text x="305" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#1a365d">STACKUP</text>
-  <rect x="242" y="105" width="126" height="8" rx="2" fill="#4299e1"/>
-  <text x="375" y="113" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L1: Signal</text>
-  <rect x="242" y="115" width="126" height="8" rx="2" fill="#48bb78"/>
-  <text x="375" y="123" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L2: GND (solid)</text>
-  <rect x="242" y="125" width="126" height="8" rx="2" fill="#ed8936"/>
-  <text x="375" y="133" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L3: Power</text>
-  <rect x="242" y="135" width="126" height="8" rx="2" fill="#4299e1"/>
-  <text x="375" y="143" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L4: Signal</text>
+  <rect x="235" y="85" width="165" height="58" rx="4" fill="white" stroke="#2b6cb0" stroke-width="1"/>
+  <text x="317" y="98" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#1a365d">STACKUP</text>
+  <rect x="242" y="104" width="70" height="7" rx="2" fill="#4299e1"/>
+  <text x="318" y="110" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L1: Signal</text>
+  <rect x="242" y="113" width="70" height="7" rx="2" fill="#48bb78"/>
+  <text x="318" y="119" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L2: GND (solid)</text>
+  <rect x="242" y="122" width="70" height="7" rx="2" fill="#ed8936"/>
+  <text x="318" y="128" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L3: Power</text>
+  <rect x="242" y="131" width="70" height="7" rx="2" fill="#4299e1"/>
+  <text x="318" y="137" font-family="Arial, sans-serif" font-size="8" fill="#1a365d">L4: Signal</text>
 
   <!-- IC component (center of board) -->
   <rect x="350" y="170" width="60" height="60" rx="2" fill="#1a365d"/>
@@ -51,12 +51,12 @@
 
   <!-- Ground via stitching around perimeter -->
   <g fill="#48bb78" opacity="0.7">
-    <circle cx="232" cy="68" r="3"/><circle cx="248" cy="68" r="3"/><circle cx="264" cy="68" r="3"/><circle cx="280" cy="68" r="3"/>
-    <circle cx="296" cy="68" r="3"/><circle cx="312" cy="68" r="3"/><circle cx="328" cy="68" r="3"/><circle cx="344" cy="68" r="3"/>
-    <circle cx="360" cy="68" r="3"/><circle cx="376" cy="68" r="3"/><circle cx="392" cy="68" r="3"/><circle cx="408" cy="68" r="3"/>
-    <circle cx="424" cy="68" r="3"/><circle cx="440" cy="68" r="3"/><circle cx="456" cy="68" r="3"/><circle cx="472" cy="68" r="3"/>
-    <circle cx="488" cy="68" r="3"/><circle cx="504" cy="68" r="3"/><circle cx="520" cy="68" r="3"/><circle cx="536" cy="68" r="3"/>
-    <circle cx="552" cy="68" r="3"/><circle cx="568" cy="68" r="3"/>
+    <circle cx="232" cy="61" r="3"/><circle cx="248" cy="61" r="3"/><circle cx="264" cy="61" r="3"/><circle cx="280" cy="61" r="3"/>
+    <circle cx="296" cy="61" r="3"/><circle cx="312" cy="61" r="3"/><circle cx="328" cy="61" r="3"/><circle cx="344" cy="61" r="3"/>
+    <circle cx="360" cy="61" r="3"/><circle cx="376" cy="61" r="3"/><circle cx="392" cy="61" r="3"/><circle cx="408" cy="61" r="3"/>
+    <circle cx="424" cy="61" r="3"/><circle cx="440" cy="61" r="3"/><circle cx="456" cy="61" r="3"/><circle cx="472" cy="61" r="3"/>
+    <circle cx="488" cy="61" r="3"/><circle cx="504" cy="61" r="3"/><circle cx="520" cy="61" r="3"/><circle cx="536" cy="61" r="3"/>
+    <circle cx="552" cy="61" r="3"/><circle cx="568" cy="61" r="3"/>
     <!-- Bottom row -->
     <circle cx="232" cy="323" r="3"/><circle cx="248" cy="323" r="3"/><circle cx="264" cy="323" r="3"/><circle cx="280" cy="323" r="3"/>
     <circle cx="296" cy="323" r="3"/><circle cx="312" cy="323" r="3"/><circle cx="328" cy="323" r="3"/><circle cx="344" cy="323" r="3"/>

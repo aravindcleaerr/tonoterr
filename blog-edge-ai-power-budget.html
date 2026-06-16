@@ -115,7 +115,7 @@
 
             <p>Everything in this article is grounded in a real product we architected and deployed: <strong>a contactless health-monitoring system for elderly care</strong>. The device sits in a room &mdash; a bedroom, a bathroom, a living area &mdash; and uses a <strong>60-GHz mmWave radar</strong> to detect falls, monitor vital signs (respiration rate, heart rate), and track activity patterns, all without cameras or wearables.</p>
 
-            <p>The system fuses data from three sensor modalities &mdash; mmWave radar point clouds, an IMU (accelerometer + gyroscope), and environmental sensors (temperature, humidity, barometric pressure) &mdash; and runs a convolutional neural network on-device to classify events in real time. The target deployment is homes and elder-care facilities across India, where the device must:</p>
+            <p>The system fuses data from two sensor modalities &mdash; mmWave radar point clouds and environmental sensors (temperature, humidity, ambient light) &mdash; and runs a convolutional neural network on-device to classify events in real time. The target deployment is homes and elder-care facilities across India, where the device must:</p>
 
             <ul>
               <li><strong>Respond within 500 ms</strong> of a fall event &mdash; cloud round-trips are too slow and unreliable</li>
@@ -184,7 +184,7 @@
               </tbody>
             </table>
 
-            <p>For our health-monitoring product, we chose a <strong>Cortex-A53 quad-core</strong> (NXP i.MX 8M Mini) running Yocto Linux. The sensor fusion pipeline &mdash; fusing mmWave radar point clouds with IMU data and environmental sensors &mdash; demanded the memory and processing headroom that only a Cortex-A class processor could provide. A Cortex-M would have been sufficient for a single-sensor keyword-spotting application, but not for multi-modal fusion with a CNN backbone.</p>
+            <p>For our health-monitoring product, we chose a <strong>Cortex-A53 quad-core</strong> (NXP i.MX 8M Mini) running Yocto Linux. The sensor fusion pipeline &mdash; fusing mmWave radar point clouds with environmental sensors &mdash; demanded the memory and processing headroom that only a Cortex-A class processor could provide. A Cortex-M would have been sufficient for a single-sensor keyword-spotting application, but not for multi-modal fusion with a CNN backbone.</p>
 
             <h3>Neural Processing Units and DSPs</h3>
 
@@ -249,26 +249,22 @@
 
             <h3>The Fusion Pipeline</h3>
 
-            <p>Our system fuses three sensor modalities:</p>
+            <p>Our system fuses two sensor modalities:</p>
 
             <ol>
               <li><strong>mmWave Radar (60 GHz):</strong> 3D point clouds at 20 fps &mdash; the primary sensing modality for presence detection, fall detection, and vital signs extraction.</li>
-              <li><strong>IMU (6-axis):</strong> Accelerometer and gyroscope data at 100 Hz &mdash; used for device orientation compensation and as a secondary fall-detection signal.</li>
-              <li><strong>Environmental sensors:</strong> Temperature, humidity, barometric pressure at 1 Hz &mdash; used for context (e.g., bathroom vs. bedroom affects fall risk priors).</li>
+              <li><strong>Environmental sensors:</strong> Temperature, humidity, ambient light (lux) at 1 Hz &mdash; used for context (e.g., low ambient light at night raises fall-risk priors).</li>
             </ol>
 
             <p>The fusion pipeline architecture:</p>
 
-<pre><code>Radar (SPI, 20fps)  ──┐
-                       ├──▶ Feature     ──▶ Fusion   ──▶ Classification ──▶ Alert
-IMU   (I2C, 100Hz) ──┤     Extraction      Engine       (Fall/No-Fall)     Engine
-                       │
-Env   (I2C, 1Hz)   ──┘
-                            ↓
-                       Preprocessing:
-                       - Point cloud clustering (DBSCAN)
-                       - IMU Kalman filtering
-                       - Env sensor moving average
+<pre><code>Radar (SPI, 20fps) ──┐
+                     ├──▶ Feature     ──▶ Fusion   ──▶ Classification ──▶ Alert
+Env   (I2C, 1Hz)   ──┘    Extraction      Engine       (Fall/No-Fall)     Engine
+                          ↓
+                     Preprocessing:
+                     - Point cloud clustering (DBSCAN)
+                     - Env sensor moving average
 </code></pre>
 
             <h3>Timing and Synchronisation</h3>
@@ -298,7 +294,7 @@ Env   (I2C, 1Hz)   ──┘
                   <td>8 ms</td>
                 </tr>
                 <tr>
-                  <td>Preprocessing (DBSCAN + Kalman)</td>
+                  <td>Preprocessing (DBSCAN clustering)</td>
                   <td>25 ms</td>
                   <td>18 ms</td>
                 </tr>

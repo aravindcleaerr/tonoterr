@@ -19,24 +19,18 @@
 
   <!-- === Sensor Sources (left column) === -->
   <!-- Radar -->
-  <rect x="30" y="80" width="150" height="55" rx="8" fill="#1a365d" filter="url(#sh)"/>
-  <text x="105" y="103" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="white">mmWave Radar</text>
-  <text x="105" y="120" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#a0c4ff">60 GHz, 20 fps</text>
-
-  <!-- IMU -->
-  <rect x="30" y="160" width="150" height="55" rx="8" fill="#1a365d" filter="url(#sh)"/>
-  <text x="105" y="183" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="white">IMU Sensor</text>
-  <text x="105" y="200" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#a0c4ff">Accel + Gyro</text>
+  <rect x="30" y="105" width="150" height="55" rx="8" fill="#1a365d" filter="url(#sh)"/>
+  <text x="105" y="128" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="white">mmWave Radar</text>
+  <text x="105" y="145" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#a0c4ff">60 GHz, 20 fps</text>
 
   <!-- Environmental -->
-  <rect x="30" y="240" width="150" height="55" rx="8" fill="#1a365d" filter="url(#sh)"/>
-  <text x="105" y="263" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Env Sensors</text>
-  <text x="105" y="280" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#a0c4ff">Temp, Humidity, Light</text>
+  <rect x="30" y="180" width="150" height="55" rx="8" fill="#1a365d" filter="url(#sh)"/>
+  <text x="105" y="203" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Env Sensors</text>
+  <text x="105" y="220" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#a0c4ff">Temp, Humidity, Light</text>
 
   <!-- Arrows from sensors to preprocessing -->
-  <line x1="180" y1="107" x2="230" y2="147" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="180" y1="187" x2="230" y2="172" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="180" y1="267" x2="230" y2="192" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="180" y1="132" x2="232" y2="158" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="180" y1="208" x2="232" y2="182" stroke="#2b6cb0" stroke-width="2" marker-end="url(#arrowhead)"/>
 
   <!-- === Preprocessing === -->
   <rect x="235" y="135" width="140" height="70" rx="8" fill="#2b6cb0" filter="url(#sh)"/>
