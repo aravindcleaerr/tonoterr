@@ -162,6 +162,7 @@
       <a href="#how" class="hover:text-[color:var(--ink)]">How it works</a>
       <a href="#walkthrough" class="hover:text-[color:var(--ink)]">Watch</a>
       <a href="#features" class="hover:text-[color:var(--ink)]">Features</a>
+      <a href="#voice" class="hover:text-[color:var(--ink)]">Voice</a>
       <a href="#contact" class="hover:text-[color:var(--ink)]">Contact</a>
     </nav>
     <a href="https://testok-bench.vercel.app/testok-demo" class="btn-primary text-xs sm:text-sm shrink-0"
@@ -484,6 +485,57 @@
             free-form reasoning). Swap with one click.
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VOICE (roadmap) ===================== -->
+  <section id="voice" class="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+    <div class="grid grid-cols-1 md:grid-cols-[1.05fr_1fr] gap-10 md:gap-14 items-center">
+      <div>
+        <div class="eyebrow mb-4">Coming to the bench · in design</div>
+        <h2 class="h2 mb-5">Both hands on the probes? <em>Just talk to it.</em></h2>
+        <p class="serif text-base sm:text-lg/relaxed muted mb-7">
+          When you're debugging, both hands are on probes and your eyes are on the
+          board &mdash; not the keyboard. So TestOK is getting a hands-free voice
+          layer: say the wake word, run a test by voice, and <em>hear</em> the
+          verdict read back while you keep probing.
+        </p>
+        <div class="grid sm:grid-cols-3 gap-4">
+          <div class="bg-paper border border-line rounded-lg p-4">
+            <div class="serif text-base mb-1 ink">1 &middot; Wake word</div>
+            <p class="muted text-sm leading-relaxed">Say <span class="citation">&ldquo;TestOK&rdquo;</span> &mdash; it listens only after that, so bench chatter won&rsquo;t trigger a run.</p>
+          </div>
+          <div class="bg-paper border border-line rounded-lg p-4">
+            <div class="serif text-base mb-1 ink">2 &middot; Command</div>
+            <p class="muted text-sm leading-relaxed">&ldquo;Run the low-rail test.&rdquo; &ldquo;Show the schematic.&rdquo; Hands never leave the probes.</p>
+          </div>
+          <div class="bg-paper border border-line rounded-lg p-4">
+            <div class="serif text-base mb-1 ink">3 &middot; Spoken verdict</div>
+            <p class="muted text-sm leading-relaxed">TestOK reads the result aloud &mdash; pass/fail, the number, and the suspect part.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Voice-exchange preview -->
+      <div class="bg-paper border border-line rounded-xl p-6 sm:p-7"
+           style="box-shadow: 0 22px 50px -20px rgba(15,32,31,0.18), 0 4px 14px -2px rgba(15,32,31,0.06);">
+        <div class="eyebrow mb-4">A hands-free run</div>
+        <div class="flex gap-3 mb-5">
+          <div class="shrink-0 text-xl" aria-hidden="true">&#127908;</div>
+          <div>
+            <div class="text-xs muted mb-1">You (probes in hand)</div>
+            <p class="serif ink">&ldquo;TestOK, run the low-rail test.&rdquo;</p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="shrink-0 text-xl" aria-hidden="true">&#128266;</div>
+          <div>
+            <div class="text-xs muted mb-1">TestOK</div>
+            <p class="serif ink">&ldquo;Fail. Output droops to <span class="citation">3.23 V</span> under load &mdash; 68 mV low. Suspect <span class="citation">U1</span> or input headroom.&rdquo;</p>
+          </div>
+        </div>
+        <p class="mt-6 mono text-xs muted">Roadmap &middot; not in the current demo yet</p>
       </div>
     </div>
   </section>
